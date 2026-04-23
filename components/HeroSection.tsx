@@ -13,11 +13,11 @@ export default function HeroSection() {
           
           <h1 className="font-display text-5xl md:text-7xl font-extrabold text-navy-950 leading-[1.1] mb-6">
             Find Your Dream Home in <br />
-            <span className="text-gold-600 italic font-light tracking-tight">The Parkes.</span>
+            <span className="text-gold-600 italic font-light tracking-tight text-4xl md:text-6xl">The Parkes at Stonebridge.</span>
           </h1>
           
           <p className="text-navy-700 text-lg md:text-xl leading-relaxed mb-8 max-w-xl">
-            This mixed-residential community sits on 18 acres of land. The project included the build of 92 luxury town homes accompanied by pocket parks, landscaping, walking trails, and a picnic area.
+            This mixed-residential community sits on 18 acres of land and includes luxury town homes accompanied by a beautiful pocket park (centered in the community), custom landscaping, walking trails, and a picnic area.
           </p>
 
           <p className="text-navy-900 font-bold mb-10">
@@ -25,16 +25,13 @@ export default function HeroSection() {
           </p>
           
           <div className="flex flex-wrap gap-4">
-            <a href="#map" className="btn-outline px-8 py-4 bg-white hover:bg-slate-50 text-navy-900 border border-navy-200 font-bold rounded flex items-center gap-2 transition-all">
-              View Active Listings
-            </a>
-            <a href="#contact" className="btn-gold px-8 py-4 bg-gold-500 hover:bg-gold-400 text-navy-950 font-bold rounded flex items-center gap-2 transition-all shadow-lg">
+            <a href="#contact" className="btn-gold px-10 py-4 bg-gold-500 hover:bg-gold-400 text-navy-950 font-bold rounded flex items-center gap-2 transition-all shadow-lg text-sm tracking-widest uppercase">
               What&apos;s My Townhome Worth? <ArrowRight size={17} />
             </a>
           </div>
         </div>
 
-        {/* Neighborhood Sign Image */}
+        {/* Neighborhood Image */}
         <div className="col-span-1 md:col-span-5">
           <img 
             src="/Parkes-neighborhood-pic.jpg" 
