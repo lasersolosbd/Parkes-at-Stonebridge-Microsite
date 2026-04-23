@@ -25,14 +25,14 @@ export default function TermsOfService() {
             <p>By accessing the Solomon Home Services microsite, you agree to comply with and be bound by the following terms and conditions.</p>
             
             <h2 className="font-display text-xl font-bold text-navy-950 pt-4 mb-2">Brokerage Firm Disclosure</h2>
-            <p>Solomon Home Services operates under the registered brokerage firm: Real. Firm contact info: (720) 807-2980 or (855) 450-0442.</p>
+            <p>Solomon Home Services operates under the registered brokerage firm: Real Broker, LLC. Firm contact info: (720) 807-2980 or (855) 450-0442.</p>
             
             <h2 className="font-display text-xl font-bold text-navy-950 pt-4 mb-2">SMS Program Terms</h2>
             <p>Our SMS program may deliver valuation updates, market reports, and communication regarding real estate services in The Parkes at Stonebridge, Longmont, CO. Msg frequency varies. Msg & data rates may apply. Carriers are not liable for delayed or undelivered messages.</p>
             
             <div className="bg-slate-50 border border-navy-100 p-6 rounded-sm shadow-inner text-navy-950 font-semibold my-8">
               <Scale className="text-gold-500 mb-2" />
-              SMS Program Name: Solomon Home Services Alerts | Registered firm name Real
+              SMS Program Name: Solomon Home Services Property Alerts
             </div>
 
             <h2 className="font-display text-xl font-bold text-navy-950 pt-4 mb-2">Unsubscribe / STOP</h2>
