@@ -1,30 +1,36 @@
-export default function PrivacyPage() {
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+
+export default function PrivacyPolicy() {
   return (
-    <main className="min-h-screen bg-cream px-6 py-24 max-w-3xl mx-auto">
-      <h1 className="font-display text-4xl text-navy-900 mb-6">Privacy Policy</h1>
-      <p className="text-navy-700 leading-relaxed mb-4">
-        Solomon Home Services ("we," "our," or "us") is committed to protecting your privacy.
-        This Privacy Policy explains how we collect, use, disclose, and safeguard your information
-        when you visit our website or contact us.
-      </p>
-      <h2 className="font-display text-2xl text-navy-900 mt-8 mb-3">Information We Collect</h2>
-      <p className="text-navy-700 leading-relaxed mb-4">
-        We may collect personal information such as your name, email address, phone number, and
-        property address when you submit a contact form or request a home valuation.
-      </p>
-      <h2 className="font-display text-2xl text-navy-900 mt-8 mb-3">SMS Communications</h2>
-      <p className="text-navy-700 leading-relaxed mb-4">
-        If you opt in to SMS communications, we may send you text messages related to your inquiry.
-        Message and data rates may apply. You may opt out at any time by replying STOP to any
-        message you receive from us.
-      </p>
-      <h2 className="font-display text-2xl text-navy-900 mt-8 mb-3">Contact</h2>
-      <p className="text-navy-700 leading-relaxed">
-        For questions regarding this policy, contact us at info@solomonhomeservices.com.
-      </p>
-      <a href="/" className="inline-block mt-10 text-gold-600 hover:text-gold-500 font-semibold tracking-wide text-sm">
-        ← Back to Home
-      </a>
+    <main className="min-h-screen bg-slate-50">
+      <Navbar />
+      <div className="max-w-4xl mx-auto px-6 py-24">
+        <h1 className="text-4xl font-display font-bold text-slate-900 mb-8">Privacy Policy</h1>
+        <div className="prose prose-slate max-w-none space-y-6 text-slate-700">
+          <p>Last Updated: {new Date().toLocaleDateString()}</p>
+          <p>
+            At Solomon Home Services, we are committed to protecting your privacy. This policy outlines how we collect, use, and safeguard your personal information when you use our website or services.
+          </p>
+          <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">Information Collection and Use</h2>
+          <p>
+            We collect information you provide directly to us, such as your name, email address, phone number, and property details, when you request a home valuation or contact us. This information is used solely to provide real estate services, communicate with you, and deliver the specific information you requested.
+          </p>
+          <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">Data Sharing and SMS Compliance</h2>
+          <p className="font-bold border-l-4 border-gold-500 pl-4 py-2 bg-white text-slate-900">
+            No mobile information will be shared with third parties/affiliates for marketing/promotional purposes. Information sharing to subcontractors in support services, such as customer service, is permitted. All other use case categories exclude text messaging originator opt-in data and consent; this information will not be shared with any third parties.
+          </p>
+          <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">Security</h2>
+          <p>
+            We take reasonable measures to help protect information about you from loss, theft, misuse and unauthorized access, disclosure, alteration and destruction.
+          </p>
+          <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">Contact Us</h2>
+          <p>
+            If you have any questions about this Privacy Policy, please contact us at mark@solomonhomeservices.com or (970) 555-0000.
+          </p>
+        </div>
+      </div>
+      <Footer />
     </main>
   );
 }
