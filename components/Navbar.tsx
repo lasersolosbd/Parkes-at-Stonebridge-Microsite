@@ -35,7 +35,7 @@ export default function Navbar() {
             </a>
           </div>
           <Link href="#contact" className="btn-gold text-sm px-6 py-3 font-bold">
-            What's My Home Worth?
+            What&apos;s My Home Worth?
           </Link>
         </div>
       </div>
