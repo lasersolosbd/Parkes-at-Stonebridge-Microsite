@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Scale } from "lucide-react";
 
 export default function PrivacyPolicy() {
   const currentYear = new Date().getFullYear();
@@ -7,7 +8,7 @@ export default function PrivacyPolicy() {
 
   return (
     <main className="min-h-screen bg-slate-50 text-navy-900">
-      <Navbar /> {/* Nav fix for legal trapping */}
+      <Navbar />
       
       <section className="pt-36 pb-24 px-6 lg:px-16">
         <div className="max-w-4xl mx-auto bg-white p-8 md:p-12 border border-navy-100 rounded-sm shadow-xl">
@@ -32,7 +33,7 @@ export default function PrivacyPolicy() {
             {/* Strict Non-sharing Clause */}
             <div className="bg-slate-50 border border-navy-100 p-6 rounded-sm shadow-inner text-navy-950 font-semibold italic text-base my-8">
               <Scale className="text-gold-500 mb-2" />
-              "No mobile information will be shared with third parties/affiliates for marketing/promotional purposes. All other категоries exclude text messaging originator opt-in data and consent; this information will not be shared with any third parties."
+              "No mobile information will be shared with third parties/affiliates for marketing/promotional purposes. Information sharing to subcontractors in support services, such as customer service, is permitted. All other use case categories exclude text messaging originator opt-in data and consent; this information will not be shared with any third parties."
             </div>
 
             <h2 className="font-display text-xl font-bold text-navy-950 pt-4 mb-2">Carrier Costs</h2>
@@ -48,7 +49,7 @@ export default function PrivacyPolicy() {
         </div>
       </section>
       
-      <Footer /> {/* Footer fix for legal trapping */}
+      <Footer />
     </main>
   );
 }
