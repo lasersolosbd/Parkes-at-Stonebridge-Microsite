@@ -29,7 +29,7 @@ export default function HeroSection() {
               View Active Listings
             </a>
             <a href="#contact" className="btn-gold px-8 py-4 bg-gold-500 hover:bg-gold-400 text-navy-950 font-bold rounded flex items-center gap-2 transition-all shadow-lg">
-              What's My Townhome Worth? <ArrowRight size={17} />
+              What&apos;s My Townhome Worth? <ArrowRight size={17} />
             </a>
           </div>
         </div>
