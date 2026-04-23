@@ -4,12 +4,11 @@ import Link from "next/link";
 import { Scale } from "lucide-react";
 
 export default function TermsOfService() {
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().toLocaleString('en-US', { month: 'long' });
+  const currentDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
   return (
     <main className="min-h-screen bg-slate-50 text-navy-900">
-      <Navbar /> {/* Nav fix for legal trapping */}
+      <Navbar />
       
       <section className="pt-36 pb-24 px-6 lg:px-16">
         <div className="max-w-4xl mx-auto bg-white p-8 md:p-12 border border-navy-100 rounded-sm shadow-xl">
@@ -18,7 +17,7 @@ export default function TermsOfService() {
           <div className="mb-12 border-b border-navy-100 pb-6">
             <span className="inline-block font-mono text-[10px] tracking-[0.2em] uppercase text-gold-600 font-semibold mb-3">Compliance Portal</span>
             <h1 className="font-display text-4xl font-bold text-navy-950 mb-4">Terms of Service</h1>
-            <p className="text-navy-500 font-mono text-xs">Last Updated: {currentMonth}, {currentYear}</p>
+            <p className="text-navy-500 font-mono text-xs">Last Updated: {currentDate}</p>
           </div>
 
           {/* TOS content */}
@@ -33,7 +32,7 @@ export default function TermsOfService() {
             
             <div className="bg-slate-50 border border-navy-100 p-6 rounded-sm shadow-inner text-navy-950 font-semibold my-8">
               <Scale className="text-gold-500 mb-2" />
-              SMS Program Name: Solomon Home Services Alerts | Registered firm name Real text
+              SMS Program Name: Solomon Home Services Alerts | Registered firm name Real
             </div>
 
             <h2 className="font-display text-xl font-bold text-navy-950 pt-4 mb-2">Unsubscribe / STOP</h2>
@@ -52,7 +51,7 @@ export default function TermsOfService() {
         </div>
       </section>
       
-      <Footer /> {/* Footer fix for legal trapping */}
+      <Footer />
     </main>
   );
 }
