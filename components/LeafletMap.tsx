@@ -33,11 +33,12 @@ function createMarkerIcon(type: "active" | "sold") {
 }
 
 // ─── Marker data ───────────────────────────────────────────────────────────
+// These markers are placeholder data. You must update these manually to real realistic data.
 const markers = [
   {
     id: 1,
     type: "active" as const,
-    position: [40.1834, -105.1019] as [number, number],
+    position: [40.1588, -105.1182] as [number, number],
     address: "2841 Stonebridge Dr, Unit 4B",
     price: "$418,500",
     beds: 3,
@@ -50,7 +51,7 @@ const markers = [
   {
     id: 2,
     type: "active" as const,
-    position: [40.1848, -105.1034] as [number, number],
+    position: [40.1582, -105.1175] as [number, number],
     address: "2907 Stonebridge Dr, Unit 2A",
     price: "$389,000",
     beds: 2,
@@ -63,7 +64,7 @@ const markers = [
   {
     id: 3,
     type: "sold" as const,
-    position: [40.1822, -105.1007] as [number, number],
+    position: [40.1592, -105.1189] as [number, number],
     address: "2765 Stonebridge Dr, Unit 7C",
     price: "$401,000",
     beds: 3,
@@ -76,7 +77,7 @@ const markers = [
   {
     id: 4,
     type: "sold" as const,
-    position: [40.1856, -105.1052] as [number, number],
+    position: [40.1578, -105.1168] as [number, number],
     address: "2993 Stonebridge Dr, Unit 1D",
     price: "$374,900",
     beds: 2,
@@ -101,7 +102,7 @@ function FixLeafletIcons() {
 function PopupCard({ m }: { m: typeof markers[0] }) {
   const isActive = m.type === "active";
   return (
-    <div className="font-body text-navy-900" style={{ width: 240 }}>
+    <div className="font-body text-navy-900 rounded-sm overflow-hidden border border-navy-100 shadow-xl" style={{ width: 240 }}>
       {/* Header */}
       <div
         className="px-4 py-3"
@@ -118,7 +119,7 @@ function PopupCard({ m }: { m: typeof markers[0] }) {
           {m.status}
         </span>
         <p
-          className="text-base font-display font-bold mt-0.5"
+          className="text-lg font-display font-bold mt-0.5"
           style={{ color: isActive ? "#040c20" : "white" }}
         >
           {m.price}
@@ -146,12 +147,12 @@ function PopupCard({ m }: { m: typeof markers[0] }) {
 
         <div className="flex items-center justify-between text-[10px] text-navy-400 font-mono border-t border-navy-100 pt-2">
           <span>HOA: {m.hoa}</span>
-          <span>{m.daysOnMarket} days on market</span>
+          <span>{m.daysOnMarket} DOM</span>
         </div>
 
         <a
           href="#contact"
-          className="block text-center text-[11px] font-semibold tracking-wider uppercase mt-3 py-2 rounded-sm transition-colors"
+          className="block text-center text-[11px] font-semibold tracking-wider uppercase mt-3 py-2 rounded-sm transition-colors shadow"
           style={{ background: "#081535", color: "#e8c05a" }}
         >
           Get Full Details →
@@ -163,12 +164,13 @@ function PopupCard({ m }: { m: typeof markers[0] }) {
 
 // ─── Main Map Component ──────────────────────────────────────────────────────
 export default function LeafletMap() {
-  const center: [number, number] = [40.1840, -105.1030];
+  // Center coordinates updated for Parkes area: SW Longmont [40.1585, -105.1180] requested.
+  const center: [number, number] = [40.1585, -105.1180]; 
 
   return (
     <MapContainer
       center={center}
-      zoom={15}
+      zoom={16} // Increased zoom for smaller neighborhood view context
       style={{ height: "500px", width: "100%" }}
       zoomControl={true}
     >
