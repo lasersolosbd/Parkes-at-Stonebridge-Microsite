@@ -1,75 +1,130 @@
-import { Phone, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
+import { Mountain, Phone, Mail } from "lucide-react";
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear(); 
 
   return (
-    <footer className="bg-navy-950 text-white py-16 px-6 lg:px-16">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-        
-        {/* Brand Block */}
-        <div className="col-span-1 md:col-span-2">
-          {/* Logo is now a clickable link */}
-          <Link href="/" className="inline-flex items-center gap-5 mb-6 hover:opacity-80 transition-opacity">
-            <div className="flex flex-col">
-              <span className="font-display text-xl font-extrabold text-white leading-none">Solomon</span>
-              <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-white/60 -mt-0.5">Home Services</span>
+    <footer className="bg-[#0f172a] text-stone-400">
+      <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        {/* Brand Column with Co-Branding Rules */}
+        <div className="lg:col-span-2">
+          
+          {/* CO-BRANDING LOGOS */}
+          <div className="flex items-center gap-6 mb-6">
+            {/* Your Logo */}
+            <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <Mountain size={26} className="text-[#c9a84c]" strokeWidth={1.5} />
+              <div className="flex flex-col leading-none">
+                <span className="text-white text-lg font-semibold font-display">
+                  Solomon
+                </span>
+                <span className="text-[#c9a84c] text-[10px] tracking-[0.2em] uppercase font-medium">
+                  Home Services
+                </span>
+              </div>
+            </Link>
+
+            {/* Separator Line per Real Broker Rules */}
+            <div className="w-px h-10 bg-white/20"></div>
+
+            {/* Real Broker Logo */}
+            <div className="flex items-center">
+              <img 
+                src="/real-broker-logo-light.png" 
+                alt="Real Broker, LLC" 
+                className="h-8 object-contain opacity-90"
+              />
             </div>
-            <div className="h-8 w-px bg-white/20" />
-            <img src="/real-broker-logo-light.png" alt="Real Broker" className="h-7 w-auto object-contain" />
-          </Link>
-          <p className="text-white/60 text-sm leading-relaxed max-w-md">
-            Mark Solomon – Your neighbor. Your advocate. Your local real estate expert serving The Parkes at Stonebridge.
+          </div>
+
+          <p className="text-stone-500 text-sm leading-relaxed max-w-sm mb-6">
+            Tactical precision. Tenacious negotiation. Over 20 years of military discipline applied to real estate — Your dedicated expert for The Parkes at Stonebridge.
           </p>
+          
+          {/* Contact Info */}
+          <div className="flex flex-col gap-3">
+            <a href="tel:+18168535467" className="flex items-center gap-2 text-sm text-stone-400 hover:text-[#c9a84c] transition-colors duration-200">
+              <Phone size={14} className="text-[#c9a84c]" />
+              (816) 853-5467
+            </a>
+            <a href="mailto:mark@solomonhomeservices.com" className="flex items-center gap-2 text-sm text-stone-400 hover:text-[#c9a84c] transition-colors duration-200">
+              <Mail size={14} className="text-[#c9a84c]" />
+              mark@solomonhomeservices.com
+            </a>
+          </div>
         </div>
 
-        {/* Contact Info */}
+        {/* Quick Links */}
         <div>
-          <h4 className="font-display text-sm font-semibold text-white uppercase tracking-wider mb-5">Contact Mark</h4>
-          <ul className="space-y-4">
-            <li>
-              <a href="tel:+18168535467" className="flex items-center gap-3 text-white/80 hover:text-gold-500 transition-colors text-sm">
-                <Phone size={18} className="text-gold-500 flex-shrink-0" />
-                (816) 853-5467
-              </a>
-            </li>
-            <li>
-              <a href="mailto:mark@solomonhomeservices.com" className="flex items-center gap-3 text-white/80 hover:text-gold-500 transition-colors text-sm">
-                <Mail size={18} className="text-gold-500 flex-shrink-0" />
-                mark@solomonhomeservices.com
-              </a>
-            </li>
-            <li className="flex items-start gap-3 text-white/80 text-sm pt-1">
-              <MapPin size={18} className="text-gold-500 flex-shrink-0 mt-1" />
-              Serving The Parkes at Stonebridge
-            </li>
+          <h4 className="text-white text-sm font-semibold tracking-widest uppercase mb-5 font-display">
+            Navigate
+          </h4>
+          <ul className="flex flex-col gap-3">
+            {[
+              { href: "/#hero", label: "The Parkes Community" }, 
+              { href: "/#map", label: "Active Market Map" }, 
+              { href: "/#contact", label: "Free Home Valuation" }
+            ].map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="text-sm text-stone-400 hover:text-[#c9a84c] transition-colors duration-200">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
-        {/* Quick Links & Legal */}
+        {/* Legal Links */}
         <div>
-          <h4 className="font-display text-sm font-semibold text-white uppercase tracking-wider mb-5">Quick Links</h4>
-          <ul className="space-y-4">
-            <li><Link href="/#hero" className="text-white/80 hover:text-gold-500 transition-colors text-sm">The Parkes Community</Link></li>
-            <li><Link href="/#map" className="text-white/80 hover:text-gold-500 transition-colors text-sm">Active Market Map</Link></li>
-            <li><Link href="/#contact" className="text-white/80 hover:text-gold-500 transition-colors text-sm">Free Home Valuation</Link></li>
-            <li className="pt-4 border-t border-white/10 flex items-center gap-4">
-              <Link href="/privacy" className="text-white/60 hover:text-gold-500 transition-colors text-xs">Privacy Policy</Link>
-              <span className="text-white/20">|</span>
-              <Link href="/terms" className="text-white/60 hover:text-gold-500 transition-colors text-xs">Terms of Service</Link>
-            </li>
-            <li className="pt-2">
-              <img src="/equal-housing-opportunity-logo.png" alt="Equal Housing" className="h-8 w-auto invert opacity-70" />
-            </li>
+          <h4 className="text-white text-sm font-semibold tracking-widest uppercase mb-5 font-display">
+            Legal
+          </h4>
+          <ul className="flex flex-col gap-3">
+            <li><Link href="/privacy" className="text-sm text-stone-400 hover:text-[#c9a84c]">Privacy Policy</Link></li>
+            <li><Link href="/terms" className="text-sm text-stone-400 hover:text-[#c9a84c]">Terms of Service</Link></li>
           </ul>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto border-t border-white/10 mt-12 pt-8 text-center md:text-left">
-        <p className="text-white/40 text-xs font-mono">
-          &copy; {currentYear} Solomon Home Services. All rights reserved.
-        </p>
+      {/* CREC Compliance Bar & Disclaimer */}
+      <div className="border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="bg-white/5 border border-[#c9a84c]/20 rounded-lg px-5 py-5 mb-5 space-y-3">
+            <p className="text-center text-xs text-stone-400 leading-relaxed">
+              <span className="text-[#c9a84c] font-semibold">Brokerage Disclosure:</span>{" "}
+              Mark Solomon is a licensed real estate broker (Colorado license #100084304) operating under{" "}
+              <strong className="text-stone-300">Real Broker, LLC</strong>. 
+            </p>
+            <p className="text-center text-xs text-stone-400 leading-relaxed">
+               Broker Contact: Real Broker LLC | 999 18th St Ste 3000, Denver, CO 80202 | (855) 450-0442
+            </p>
+            <p className="text-center text-[11px] text-stone-500 italic">
+              Information provided is deemed reliable but not guaranteed. This information is not an attempt to solicit an already listed property.
+            </p>
+          </div>
+
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone-600 mb-8">
+            <div className="flex items-center gap-3">
+              <img src="/equal-housing-opportunity-logo.png" alt="Equal Housing Opportunity" className="h-10 object-contain invert mix-blend-screen opacity-70" />
+              <span>Equal Housing Opportunity</span>
+            </div>
+            <p className="text-center">
+              © {currentYear} Solomon Home Services. All rights reserved.
+            </p>
+          </div>
+
+          {/* THE DoD DISCLAIMER */}
+          <div className="pt-8 border-t border-white/10 text-[10px] leading-[1.6] text-stone-500 text-center max-w-4xl mx-auto">
+            <p className="mb-2">
+              This site has no affiliation with the Department of Defense, the Department of the Navy, or any other branch of the U.S. military. The views, products, and services expressed here are solely those of the author. The DoD does not endorse this website, Mark Solomon or this real estate business.
+            </p>
+            <p>
+              ...But they should. Batteries not included. Void where prohibited. Your mileage may vary. Past performance is not indicative of future results. No sailors were harmed in the making of this business. The Navy reserves the right to take credit for his operational discipline while accepting no responsibility for the jokes.
+            </p>
+          </div>
+
+        </div>
       </div>
     </footer>
   );
