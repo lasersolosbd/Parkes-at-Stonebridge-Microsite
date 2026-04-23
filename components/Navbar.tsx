@@ -1,103 +1,44 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { Phone, Menu, X } from "lucide-react";
+import Link from "next/link";
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const links = [
-    { label: "Home", href: "/" },
-    { label: "Advantage", href: "#advantage" },
-    { label: "Listings", href: "#map" },
-    { label: "Valuation", href: "#contact" },
-  ];
-
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-navy-950/95 backdrop-blur-md shadow-lg shadow-navy-950/40 py-3"
-          : "bg-transparent py-5"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        {/* Logo */}
-        <a href="/" className="flex flex-col leading-tight group">
-          <span className="font-display text-white text-lg font-semibold tracking-wide group-hover:text-gold-300 transition-colors duration-200">
-            Solomon Home Services
-          </span>
-          <span className="text-gold-500 text-[10px] tracking-[0.3em] uppercase font-mono">
-            The Parkes at Stonebridge
-          </span>
-        </a>
-
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
-          {links.map((l) => (
-            <a key={l.label} href={l.href} className="nav-link pb-0.5">
-              {l.label}
-            </a>
-          ))}
-        </nav>
-
-        {/* CTA */}
-        <div className="hidden md:flex items-center gap-4">
-          <a
-            href="tel:+19705550000"
-            className="flex items-center gap-2 text-white/60 hover:text-gold-400 transition-colors duration-200 text-sm"
-          >
-            <Phone size={14} />
-            <span className="font-mono tracking-wide">(970) 555‑0000</span>
-          </a>
-          <a href="#contact" className="btn-gold text-sm py-2.5 px-5">
-            Free Valuation
-          </a>
+    <nav className="w-full bg-white border-b border-gray-100 py-4 px-6 sticky top-0 z-[9999] shadow-sm">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        
+        {/* Co-Branding Logo Section */}
+        <div className="flex items-center gap-4 md:gap-6">
+          <div className="flex flex-col">
+             <span className="text-xl md:text-2xl font-display font-bold text-slate-900 tracking-tight leading-none">
+               SOLOMON <span className="font-light">HOME SERVICES</span>
+             </span>
+             <span className="text-[10px] text-slate-500 font-medium uppercase tracking-wider mt-1">
+               Mark Solomon
+             </span>
+          </div>
+          
+          <div className="h-8 w-px bg-slate-300"></div>
+          
+          <div className="flex items-center gap-2">
+            <img 
+              src="/real-broker-logo-dark.png" 
+              alt="Real Broker" 
+              className="h-6 md:h-8 w-auto object-contain" 
+            />
+            <span className="text-xs font-bold text-slate-800 uppercase tracking-widest">Real</span>
+          </div>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden text-white p-1"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          {menuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </div>
-
-      {/* Mobile Drawer */}
-      <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ${
-          menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        <div className="bg-navy-950/98 px-6 py-4 flex flex-col gap-4 border-t border-white/10">
-          {links.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              onClick={() => setMenuOpen(false)}
-              className="text-white/70 hover:text-gold-400 text-sm tracking-widest uppercase transition-colors"
-            >
-              {l.label}
-            </a>
-          ))}
-          <a
-            href="#contact"
-            onClick={() => setMenuOpen(false)}
-            className="btn-gold text-sm py-2.5 text-center mt-2"
-          >
-            Free Valuation
-          </a>
+        {/* Navigation Links */}
+        <div className="flex items-center gap-6 text-sm font-medium text-slate-600">
+          <Link href="/#hero" className="hidden md:block hover:text-gold-600 transition-colors">The Parkes</Link>
+          <Link href="/#map" className="hidden md:block hover:text-gold-600 transition-colors">Market Map</Link>
+          <a href="tel:+19705550000" className="hidden md:block text-slate-900 font-bold hover:text-gold-600 transition-colors">(970) 555-0000</a>
+          <Link href="/#contact" className="px-5 py-2 bg-slate-900 text-white rounded hover:bg-gold-600 transition-all">
+            Get Home Value
+          </Link>
         </div>
+
       </div>
-    </header>
+    </nav>
   );
 }
