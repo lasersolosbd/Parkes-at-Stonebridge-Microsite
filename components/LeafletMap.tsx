@@ -33,12 +33,13 @@ function createMarkerIcon(type: "active" | "sold") {
 }
 
 // ─── Marker data ───────────────────────────────────────────────────────────
-// These markers are placeholder data. You must update these manually to real realistic data.
+// Note: These markers are placeholder data. You will need to update these 
+// manually to reflect real, current MLS data for The Parkes.
 const markers = [
   {
     id: 1,
     type: "active" as const,
-    position: [40.1588, -105.1182] as [number, number],
+    position: [40.1534, -105.1179] as [number, number],
     address: "2841 Stonebridge Dr, Unit 4B",
     price: "$418,500",
     beds: 3,
@@ -51,7 +52,7 @@ const markers = [
   {
     id: 2,
     type: "active" as const,
-    position: [40.1582, -105.1175] as [number, number],
+    position: [40.1528, -105.1172] as [number, number],
     address: "2907 Stonebridge Dr, Unit 2A",
     price: "$389,000",
     beds: 2,
@@ -64,7 +65,7 @@ const markers = [
   {
     id: 3,
     type: "sold" as const,
-    position: [40.1592, -105.1189] as [number, number],
+    position: [40.1538, -105.1182] as [number, number],
     address: "2765 Stonebridge Dr, Unit 7C",
     price: "$401,000",
     beds: 3,
@@ -77,7 +78,7 @@ const markers = [
   {
     id: 4,
     type: "sold" as const,
-    position: [40.1578, -105.1168] as [number, number],
+    position: [40.1525, -105.1168] as [number, number],
     address: "2993 Stonebridge Dr, Unit 1D",
     price: "$374,900",
     beds: 2,
@@ -164,13 +165,13 @@ function PopupCard({ m }: { m: typeof markers[0] }) {
 
 // ─── Main Map Component ──────────────────────────────────────────────────────
 export default function LeafletMap() {
-  // Center coordinates updated for Parkes area: SW Longmont [40.1585, -105.1180] requested.
-  const center: [number, number] = [40.1585, -105.1180]; 
+  // Corrected coordinates for Nelson Rd & Stonebridge Dr
+  const center: [number, number] = [40.1530, -105.1175]; 
 
   return (
     <MapContainer
       center={center}
-      zoom={16} // Increased zoom for smaller neighborhood view context
+      zoom={16}
       style={{ height: "500px", width: "100%" }}
       zoomControl={true}
     >
