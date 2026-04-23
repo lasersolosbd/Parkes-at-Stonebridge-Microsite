@@ -3,8 +3,7 @@ import Footer from "@/components/Footer";
 import { Scale } from "lucide-react";
 
 export default function PrivacyPolicy() {
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().toLocaleString('en-US', { month: 'long' });
+  const currentDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
   return (
     <main className="min-h-screen bg-slate-50 text-navy-900">
@@ -17,7 +16,7 @@ export default function PrivacyPolicy() {
           <div className="mb-12 border-b border-navy-100 pb-6">
             <span className="inline-block font-mono text-[10px] tracking-[0.2em] uppercase text-gold-600 font-semibold mb-3">Compliance Portal</span>
             <h1 className="font-display text-4xl font-bold text-navy-950 mb-4">Privacy Policy</h1>
-            <p className="text-navy-500 font-mono text-xs">Last Updated: {currentMonth}, {currentYear}</p>
+            <p className="text-navy-500 font-mono text-xs">Last Updated: {currentDate}</p>
           </div>
 
           {/* Policy content */}
