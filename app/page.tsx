@@ -6,8 +6,8 @@ import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
 import { Home, Trees, Footprints } from "lucide-react";
 
-// This replaces the old StatsBar import with your new 3 items
-function CommunityBar() {
+// RENAMED FUNCTION TO FORCE UPDATE
+function CommunityFeaturesBar() {
   const communityFeatures = [
     { icon: Home, label: "Luxury Townhome Community" },
     { icon: Trees, label: "Greenspace for Community Use" },
@@ -15,7 +15,7 @@ function CommunityBar() {
   ];
 
   return (
-    <section className="bg-[#0f172a] py-10 px-6 lg:px-16 border-y border-white/10">
+    <section className="bg-[#0f172a] py-10 px-6 lg:px-16 border-y border-white/10 relative z-20">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-around items-center gap-8">
         {communityFeatures.map((feature, idx) => (
           <div key={idx} className="flex items-center gap-4 group">
@@ -25,7 +25,6 @@ function CommunityBar() {
             <span className="text-white font-display text-sm md:text-base font-semibold tracking-wide uppercase">
               {feature.label}
             </span>
-            {/* Divider line for desktop */}
             {idx < communityFeatures.length - 1 && (
               <div className="hidden md:block h-8 w-px bg-white/10 ml-8" />
             )}
@@ -41,8 +40,8 @@ export default function Home() {
     <main className="overflow-x-hidden bg-white">
       <Navbar />
       <HeroSection />
-      {/* We are now using the function defined above instead of the missing file */}
-      <CommunityBar />
+      {/* DIRECT INLINE CALL */}
+      <CommunityFeaturesBar />
       <NeighborAdvantage />
       <MapSection />
       <ContactForm />
