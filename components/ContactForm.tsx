@@ -1,35 +1,76 @@
+import { ArrowRight } from "lucide-react";
+
 export default function ContactForm() {
   return (
-    <section id="contact" className="py-24 bg-white px-6">
-      <div className="max-w-3xl mx-auto bg-slate-50 p-8 md:p-12 rounded-xl border border-gray-100 shadow-sm">
-        <h2 className="text-3xl font-display font-bold text-slate-900 mb-2">Get Your Free Home Valuation</h2>
-        <p className="text-slate-600 mb-8">Enter your Stonebridge address below. I will send you a detailed, confidential report.</p>
-        
-        <form className="flex flex-col gap-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <input type="text" placeholder="First Name" className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-gold-500" required />
-            <input type="text" placeholder="Last Name" className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-gold-500" required />
-          </div>
-          <input type="tel" placeholder="Phone Number" className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-gold-500" required />
-          <input type="email" placeholder="Email Address" className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-gold-500" required />
-          <input type="text" placeholder="Townhouse Address (e.g., 770 Stonebridge Dr)" className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-gold-500" required />
-          
-          {/* 2026 GHL A2P Strict Compliance Checkboxes (OPTIONAL) */}
-          <div className="flex flex-col gap-4 mt-2 bg-white p-4 border border-gray-200 rounded">
-            <label className="flex items-start gap-3 text-xs text-slate-600 leading-tight cursor-pointer">
-              <input type="checkbox" className="mt-0.5" />
-              <span>I consent to receive marketing text messages, about special offers, discounts, and service updates, from Solomon Home Services at the phone number provided. Message frequency may vary. Message & data rates may apply. Text HELP for assistance, reply STOP to opt out.</span>
-            </label>
-            <label className="flex items-start gap-3 text-xs text-slate-600 leading-tight cursor-pointer">
-              <input type="checkbox" className="mt-0.5" />
-              <span>I consent to receive non-marketing text messages from Solomon Home Services about property valuations and showing schedules. Message frequency may vary, message & data rates may apply. Text HELP for assistance, reply STOP to opt out.</span>
-            </label>
-          </div>
+    <section id="contact" className="bg-slate-50 py-24 px-6 lg:px-16 border-t border-navy-100 text-navy-900">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start">
+            
+            {/* Form Info */}
+            <div className="col-span-1 md:col-span-5">
+              <span className="inline-block font-mono text-[10px] tracking-[0.2em] uppercase text-gold-600 font-semibold mb-3">Stonebridge Portal</span>
+              <h2 className="font-display text-4xl md:text-5xl text-navy-950 font-bold leading-tight mb-5">
+                Neighborhood Equity Portal
+              </h2>
+              <div className="gold-rule w-16 mb-6" />
+              <p className="text-navy-700 text-base leading-relaxed max-w-sm mb-6">
+                Connect with Mark – Parkes resident and local expert. Receive a confidential, data-driven assessment or inquire about MLS alerts.
+              </p>
+               <div className="inline-flex items-center gap-3 border border-navy-100 bg-white p-3 rounded-sm shadow-inner">
+                 <span className="font-display text-base font-semibold text-navy-950">Mark Solomon</span>
+                 <span className="text-gold-500">|</span>
+                 <span className="text-navy-600 text-sm">Dedicated Resident Since 2019</span>
+               </div>
+            </div>
 
-          <button type="submit" className="w-full py-4 bg-slate-900 hover:bg-gold-600 text-white font-bold rounded transition-colors text-lg mt-4">
-            Request Valuation
-          </button>
-        </form>
+            {/* Form */}
+            <div className="col-span-1 md:col-span-7 bg-white p-8 border border-navy-100 rounded-sm shadow-xl">
+              <form className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                    <input type="text" placeholder="First Name" className="compliance-input" required />
+                </div>
+                <div>
+                    <input type="text" placeholder="Last Name" className="compliance-input" required />
+                </div>
+                <div className="sm:col-span-2">
+                    <input type="tel" placeholder="Cell Number (SMS Updates)" className="compliance-input" required />
+                </div>
+                <div className="sm:col-span-2">
+                    <input type="email" placeholder="Email Address" className="compliance-input" required />
+                </div>
+                <div className="sm:col-span-2">
+                    <input type="text" placeholder="Parkes Unit Address" className="compliance-input" required />
+                </div>
+                <div className="sm:col-span-2">
+                    <textarea placeholder="Your inquiry (Optional)" rows={3} className="compliance-input"></textarea>
+                </div>
+
+                {/* Strict Two-Checkbox Form compliance */}
+                <div className="sm:col-span-2 flex flex-col gap-4 mt-2">
+                    <label className="flex items-start gap-3.5 text-navy-600 text-[10px] font-mono leading-relaxed cursor-pointer group">
+                        <input type="checkbox" className="mt-1 flex-shrink-0" /> {/* Optional per SOP req */}
+                        <span>
+                            I agree to the Terms of Service and Privacy Policy. I consent to receive SMS communications regarding real estate services from Solomon Home Services. Message & data rates may apply. Reply STOP to opt-out.
+                        </span>
+                    </label>
+                    <label className="flex items-start gap-3.5 text-navy-600 text-[10px] font-mono leading-relaxed cursor-pointer group pt-1">
+                        <input type="checkbox" className="mt-1 flex-shrink-0" /> {/* Optional per SOP req */}
+                        <span>
+                            (Optional) I consent to receive additional property valuation updates, local market reports, and occasional community news via SMS from Solomon Home Services.
+                        </span>
+                    </label>
+                </div>
+
+                <div className="sm:col-span-2 pt-4">
+                  <button type="submit" className="btn-gold w-full flex items-center justify-center gap-3">
+                    Connect with your Neighbor, Mark Solomon
+                    <ArrowRight size={18} />
+                  </button>
+                </div>
+              </form>
+            </div>
+
+        </div>
       </div>
     </section>
   );
