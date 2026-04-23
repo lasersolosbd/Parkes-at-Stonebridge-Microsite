@@ -77,13 +77,13 @@ export default function ContactForm() {
           
           {/* Left Column: Copy */}
           <div className="lg:pt-4">
-            <span className="text-gold-600 text-xs font-semibold tracking-[0.3em] uppercase block mb-3">Let's Connect</span>
+            <span className="text-gold-600 text-xs font-semibold tracking-[0.3em] uppercase block mb-3">Let&apos;s Connect</span>
             <h2 className="text-4xl md:text-5xl font-bold text-navy-950 leading-tight mb-5 font-display">
               Start The <span className="text-navy-700">Conversation.</span>
             </h2>
             <span className="block w-14 h-0.5 mb-7 bg-gradient-to-r from-gold-500 to-gold-300" />
             <p className="text-navy-700 text-base leading-relaxed mb-8">
-              No pressure. Just an honest assessment of your home's value or your buying potential in The Parkes at Stonebridge — backed by 20+ years of experience and precise execution.
+              No pressure. Just an honest assessment of your home&apos;s value or your buying potential in The Parkes at Stonebridge — backed by 20+ years of experience and precise execution.
             </p>
             <div className="space-y-4">
               {[
@@ -101,4 +101,13 @@ export default function ContactForm() {
             <div className="mt-10 p-6 bg-white border border-slate-200 rounded-xl space-y-3 shadow-sm">
               <p className="text-navy-950 font-semibold text-sm font-display">Prefer to reach out directly?</p>
               <a href="tel:+18168535467" className="flex items-center gap-3 text-navy-600 hover:text-gold-500 text-sm transition-colors"><Phone size={15} className="text-gold-500" />(816) 853-5467</a>
-              <a href="mailto:mark@solomonhomeservices.com" className="flex items-center gap-3 text-navy-600 hover:text-gold-500 text-sm transition-colors"><Mail size={15} className="text
+              <a href="mailto:mark@solomonhomeservices.com" className="flex items-center gap-3 text-navy-600 hover:text-gold-500 text-sm transition-colors"><Mail size={15} className="text-gold-500" />mark@solomonhomeservices.com</a>
+              <div className="flex items-center gap-3 text-navy-500 text-sm"><MapPin size={15} className="text-gold-500" />Serving The Parkes at Stonebridge</div>
+            </div>
+          </div>
+
+          {/* Right Column: The Form */}
+          <div>
+            {submitted ? (
+              <div className="bg-white rounded-2xl p-12 text-center shadow-xl border border-slate-200 flex flex-col items-center justify-center min-h-[500px]">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6 bg-navy-9
