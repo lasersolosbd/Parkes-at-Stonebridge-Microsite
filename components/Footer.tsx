@@ -10,14 +10,15 @@ export default function Footer() {
         
         {/* Brand Block */}
         <div className="col-span-1 md:col-span-2">
-          <div className="flex items-center gap-5 mb-6">
+          {/* Logo is now a clickable link */}
+          <Link href="/" className="inline-flex items-center gap-5 mb-6 hover:opacity-80 transition-opacity">
             <div className="flex flex-col">
               <span className="font-display text-xl font-extrabold text-white leading-none">Solomon</span>
               <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-white/60 -mt-0.5">Home Services</span>
             </div>
             <div className="h-8 w-px bg-white/20" />
             <img src="/real-broker-logo-light.png" alt="Real Broker" className="h-7 w-auto object-contain" />
-          </div>
+          </Link>
           <p className="text-white/60 text-sm leading-relaxed max-w-md">
             Mark Solomon – Your neighbor. Your advocate. Your local real estate expert serving The Parkes at Stonebridge.
           </p>
@@ -46,13 +47,19 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Quick Links */}
+        {/* Quick Links & Legal */}
         <div>
-          <h4 className="font-display text-sm font-semibold text-white uppercase tracking-wider mb-5">Legal</h4>
+          <h4 className="font-display text-sm font-semibold text-white uppercase tracking-wider mb-5">Quick Links</h4>
           <ul className="space-y-4">
-            <li><Link href="/privacy" className="text-white/80 hover:text-gold-500 transition-colors text-sm">Privacy Policy</Link></li>
-            <li><Link href="/terms" className="text-white/80 hover:text-gold-500 transition-colors text-sm">Terms of Service</Link></li>
-            <li className="pt-4">
+            <li><Link href="/#hero" className="text-white/80 hover:text-gold-500 transition-colors text-sm">The Parkes Community</Link></li>
+            <li><Link href="/#map" className="text-white/80 hover:text-gold-500 transition-colors text-sm">Active Market Map</Link></li>
+            <li><Link href="/#contact" className="text-white/80 hover:text-gold-500 transition-colors text-sm">Free Home Valuation</Link></li>
+            <li className="pt-4 border-t border-white/10 flex items-center gap-4">
+              <Link href="/privacy" className="text-white/60 hover:text-gold-500 transition-colors text-xs">Privacy Policy</Link>
+              <span className="text-white/20">|</span>
+              <Link href="/terms" className="text-white/60 hover:text-gold-500 transition-colors text-xs">Terms of Service</Link>
+            </li>
+            <li className="pt-2">
               <img src="/equal-housing-opportunity-logo.png" alt="Equal Housing" className="h-8 w-auto invert opacity-70" />
             </li>
           </ul>
