@@ -1,5 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import { Mountain, Phone, Mail } from "lucide-react";
+import { Mountain, Phone, Mail, MapPin } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear(); 
@@ -114,7 +116,7 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* THE DoD DISCLAIMER */}
+          {/* THE DoD DISCLAIMER with escaped apostrophes for Vercel build success */}
           <div className="pt-8 border-t border-white/10 text-[10px] leading-[1.6] text-stone-500 text-center max-w-4xl mx-auto">
             <p className="mb-2">
               This site has no affiliation with the Department of Defense, the Department of the Navy, or any other branch of the U.S. military. The views, products, and services expressed here are solely those of the author. The DoD does not endorse this website, Mark Solomon or this real estate business.
