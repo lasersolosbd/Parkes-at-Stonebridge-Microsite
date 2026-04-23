@@ -1,43 +1,68 @@
+"use client";
+
 import Link from "next/link";
+import { Phone } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Brokerage Side-by-Side Co-branding rule implementation
+  const CoBrandingLogos = () => (
+    <div className="flex items-center gap-5">
+      {/* Solomon Home Services Brand */}
+      <div className="flex flex-col">
+        <span className="font-display text-lg font-extrabold text-navy-950 leading-none">Solomon</span>
+        <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-navy-600 -mt-0.5">Home Services</span>
+      </div>
+      
+      {/* The Separator Line */}
+      <div className="h-8 w-px bg-navy-200" />
+      
+      {/* Registered Firm (text) and Firm Logo SIDE-by-SIDE */}
+      <div className="flex flex-col items-center gap-1">
+        <img 
+          src="/real-broker-logo-dark.png" 
+          alt="Real Broker" 
+          className="h-7 w-auto object-contain" 
+        />
+        <span className="font-body text-[9px] font-semibold text-navy-900 leading-tight">Registered Brokerage Firm: Real</span> {/* Registered firm name plaintext req */}
+      </div>
+    </div>
+  );
+
   return (
-    <nav className="w-full bg-white border-b border-gray-100 py-4 px-6 sticky top-0 z-[9999] shadow-sm">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    <nav className={`fixed top-0 left-0 w-full bg-white transition-all duration-300 ${scrolled ? "z-[9999] shadow-md py-3" : "z-10 py-5"}`}> {/* Sticky high z-index fix */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-16 flex items-center justify-between gap-6">
         
-        {/* Co-Branding Logo Section */}
-        <div className="flex items-center gap-4 md:gap-6">
-          <div className="flex flex-col">
-             <span className="text-xl md:text-2xl font-display font-bold text-slate-900 tracking-tight leading-none">
-               SOLOMON <span className="font-light">HOME SERVICES</span>
-             </span>
-             <span className="text-[10px] text-slate-500 font-medium uppercase tracking-wider mt-1">
-               Mark Solomon
-             </span>
+        {/* Logos & Branding */}
+        <Link href="/" className="flex-shrink-0">
+          <CoBrandingLogos />
+        </Link>
+
+        {/* Desktop Nav & compliance State Req (Name/Phone) */}
+        <div className="hidden md:flex items-center gap-10">
+          <div className="flex flex-col text-right">
+            <span className="font-display text-sm font-semibold text-navy-950">Mark Solomon</span> {/* Agent Name CO state req */}
+            <a href="tel:+19705551234" className="font-mono text-sm font-bold text-gold-600 hover:text-gold-500 transition-colors"> {/* Correct phone req */}
+              (970) 555-1234
+            </a>
           </div>
           
-          <div className="h-8 w-px bg-slate-300"></div>
-          
-          <div className="flex items-center gap-2">
-            <img 
-              src="/real-broker-logo-dark.png" 
-              alt="Real Broker" 
-              className="h-6 md:h-8 w-auto object-contain" 
-            />
-            <span className="text-xs font-bold text-slate-800 uppercase tracking-widest">Real</span>
+          <div className="flex items-center gap-6">
+            <Link href="#contact" className="btn-gold text-xs px-6 py-2.5">
+              Valuation Portal
+            </Link>
           </div>
         </div>
-
-        {/* Navigation Links */}
-        <div className="flex items-center gap-6 text-sm font-medium text-slate-600">
-          <Link href="/#hero" className="hidden md:block hover:text-gold-600 transition-colors">The Parkes</Link>
-          <Link href="/#map" className="hidden md:block hover:text-gold-600 transition-colors">Market Map</Link>
-          <a href="tel:+19705550000" className="hidden md:block text-slate-900 font-bold hover:text-gold-600 transition-colors">(970) 555-0000</a>
-          <Link href="/#contact" className="px-5 py-2 bg-slate-900 text-white rounded hover:bg-gold-600 transition-all">
-            Get Home Value
-          </Link>
-        </div>
-
       </div>
     </nav>
   );
