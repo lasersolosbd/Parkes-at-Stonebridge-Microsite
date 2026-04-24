@@ -4,12 +4,12 @@ import NeighborAdvantage from "@/components/NeighborAdvantage";
 import MapSection from "@/components/MapSection";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
-import { Home, Trees, Footprints } from "lucide-react";
+import { Home as HomeIcon, Trees, Footprints } from "lucide-react";
 
-// RENAMED FUNCTION TO FORCE UPDATE
+// This bar is now self-contained within this file to ensure it updates correctly
 function CommunityFeaturesBar() {
   const communityFeatures = [
-    { icon: Home, label: "Luxury Townhome Community" },
+    { icon: HomeIcon, label: "Luxury Townhome Community" },
     { icon: Trees, label: "Greenspace for Community Use" },
     { icon: Footprints, label: "Walkable Trails" },
   ];
@@ -40,7 +40,6 @@ export default function Home() {
     <main className="overflow-x-hidden bg-white">
       <Navbar />
       <HeroSection />
-      {/* DIRECT INLINE CALL */}
       <CommunityFeaturesBar />
       <NeighborAdvantage />
       <MapSection />
