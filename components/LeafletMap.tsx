@@ -4,50 +4,47 @@ import { MapContainer, TileLayer, Marker, Popup, Polygon } from "react-leaflet";
 import L from "leaflet";
 import type { Category } from "./MapSection";
 
-// VERIFIED DATA: Real-world Longmont coordinates. No AI guessing.
+// REPLACE THESE BRACKETS [40.xxx, -105.xxx] WITH YOUR GOOGLE MAPS COORDINATES
 export const LANDMARKS = [
   // Original 13
-  { id: 1, name: "Meadow Village Park", category: "parks", position: [40.156, -105.120], description: "Community green space steps away.", address: "Meadow Dr" },
-  { id: 2, name: "Sandstone Ranch Park", category: "parks", position: [40.140, -105.060], description: "Sports and nature complex.", address: "3800 S Martin St" },
-  { id: 3, name: "McIntosh Lake", category: "parks", position: [40.192, -105.126], description: "3.5-mile loop trail.", address: "1929 Harvard St" },
-  { id: 4, name: "Golden Ponds", category: "parks", position: [40.156, -105.142], description: "Fishing and trails.", address: "Golden Ponds Pkwy" },
-  { id: 5, name: "Oskar Blues Brewery", category: "dining", position: [40.142, -105.110], description: "BBQ and craft brews.", address: "1800 Pike Rd" },
-  { id: 6, name: "Left Hand Brewing", category: "dining", position: [40.158, -105.115], description: "Local tasting room.", address: "1265 Boston Ave" },
-  { id: 7, name: "Winner's Circle", category: "dining", position: [40.148, -105.088], description: "Axe throwing and bowling.", address: "2251 Ken Pratt Blvd" },
-  { id: 8, name: "Longmont Public House", category: "dining", position: [40.151, -105.132], description: "Elevated comfort food.", address: "1111 Allen Dr" },
-  { id: 9, name: "Blue Mountain Elementary", category: "schools", position: [40.145, -105.174], description: "Top-rated elementary.", address: "1260 Mountain Drive" },
-  { id: 10, name: "Altona Middle School", category: "schools", position: [40.155, -105.168], description: "Award-winning middle school.", address: "4600 Clover Basin Dr" },
-  { id: 11, name: "Silver Creek High School", category: "schools", position: [40.150, -105.175], description: "Exceptional college prep.", address: "4901 Nelson Rd" },
-  { id: 13, name: "Village at the Peaks", category: "shopping", position: [40.150, -105.130], description: "Premium open-air shopping.", address: "1250 S Hover St" },
-  { id: 14, name: "UCHealth Longs Peak", category: "shopping", position: [40.150, -105.075], description: "Acute care hospital.", address: "1750 E Ken Pratt Blvd" },
+  { id: 1, name: "Sandstone Ranch Park", category: "parks", position: [40.159736783065405, -105.03659635920712], description: "Sports and nature complex.", address: "3800 S Martin St" },
+  { id: 2, name: "McIntosh Lake", category: "parks", position: [40.19531149252948, -105.1506932234201], description: "3.5-mile loop trail.", address: "1929 Harvard St" },
+  { id: 3, name: "Oskar Blues Homemade Liquids and Solids", category: "dining", position: [40.13948705033737, -105.13149354548801], description: "BBQ and craft brews.", address: "1800 Pike Rd" },
+  { id: 4, name: "Left Hand Brewing", category: "dining", position: [40.15866325579601, -105.11498038781549], description: "Local tasting room.", address: "1265 Boston Ave" },
+  { id: 5, name: "Winner's Circle", category: "dining", position: [40.141695712207216, -105.12924434548786], description: "Axe throwing and bowling.", address: "2251 Ken Pratt Blvd" },
+  { id: 6, name: "Longmont Protos Pizza", category: "dining", position: [40.15244390918571, -105.15246510575655], description: "Elevated comfort food.", address: "1111 Allen Dr" },
+  { id: 7, name: "Blue Mountain Elementary", category: "schools", position: [40.14422401050304, -105.17363861665198], description: "Top-rated elementary.", address: "1260 Mountain Drive" },
+  { id: 8, name: "Altona Middle School", category: "schools", position: [40.144499104084595, -105.16258574178636], description: "Award-winning middle school.", address: "4600 Clover Basin Dr" },
+  { id: 9, name: "Silver Creek High School", category: "schools", position: [40.15137978199581, -105.1673746608307], description: "Exceptional college prep.", address: "4901 Nelson Rd" },
+  { id: 10, name: "Village at the Peaks", category: "shopping", position: [40.14716659635498, -105.13004466083099], description: "Premium open-air shopping.", address: "1250 S Hover St" },
+  { id: 11, name: "UCHealth Longs Peak Hospital", category: "shopping", position: [40.16179985755167, -105.05829678781535], description: "Acute care hospital.", address: "1750 E Ken Pratt Blvd" },
 
-  // Your 7 New Additions
-  { id: 15, name: "Ziggi's Coffee", category: "dining", position: [40.138, -105.158], description: "Local coffee favorite.", address: "3730 Bramante Dr" },
-  { id: 16, name: "Vance Brand Airport", category: "landmarks", position: [40.1643, -105.1636], description: "Public-use municipal airport.", address: "229 Airport Rd" },
-  { id: 17, name: "Ozo Coffee", category: "dining", position: [40.149, -105.130], description: "Artisan coffee roasters.", address: "1232A S Hover St #400" },
-  { id: 18, name: "Super Target", category: "shopping", position: [40.158, -105.130], description: "Large department store.", address: "551 S Hover St" },
-  { id: 19, name: "The Home Depot", category: "shopping", position: [40.161, -105.130], description: "Home improvement center.", address: "393 S Hover St" },
-  { id: 20, name: "Veterans Community Project", category: "charity", position: [40.145, -105.167], description: "Supporting our veterans.", address: "3095 Mountain Brook Dr" },
-  { id: 21, name: "King Soopers", category: "shopping", position: [40.152, -105.130], description: "Local grocery store.", address: "995 S Hover St" },
+  // Your 7 Additions
+  { id: 12, name: "Ziggi's Coffee", category: "dining", position: [40.14317871710589, -105.15059680315949], description: "Local coffee favorite.", address: "3730 Bramante Dr" },
+  { id: 13, name: "Vance Brand Airport", category: "landmarks", position: [40.16448574303451, -105.16337500315852], description: "Public-use municipal airport.", address: "229 Airport Rd" },
+  { id: 14, name: "Ozo Coffee", category: "dining", position: [40.147542311437824, -105.12908543384583], description: "Artisan coffee roasters.", address: "1232A S Hover St #400" },
+  { id: 15, name: "Super Target", category: "shopping", position: [40.153778481318376, -105.13423703014416], description: "Large department store.", address: "551 S Hover St" },
+  { id: 16, name: "The Home Depot", category: "shopping", position: [40.155439472638925, -105.13361240315888], description: "Home improvement center.", address: "393 S Hover St" },
+  { id: 17, name: "Veterans Community Project", category: "charity", position: [40.15665546945921, -105.14412288966642], description: "Supporting our veterans.", address: "3095 Mountain Brook Dr" },
+  { id: 18, name: "King Soopers", category: "shopping", position: [40.15069368427152, -105.13408537432332], description: "Local grocery store.", address: "995 S Hover St" },
 ];
 
-// REAL PARKES BOUNDARY
-// Hardcoded to the exact block of 784 Stonebridge Dr.
+// ADJUST THESE CORNERS FOR THE EXACT BOUNDARY BOX
+// Format is: [Latitude, Longitude]
 const neighborhoodBoundary: [number, number][] = [
-  [40.152, -105.151], 
-  [40.152, -105.147], 
-  [40.148, -105.147], 
-  [40.148, -105.151]
+  [40.1515, -105.1495], // NW Corner
+  [40.1515, -105.1480], // NE Corner
+  [40.1485, -105.1480], // SE Corner
+  [40.1485, -105.1495]  // SW Corner
 ];
 
-// Added color mapping for the two new categories
 const CAT_COLORS: Record<string, { pin: string; ring: string }> = {
   dining:    { pin: "#d97706", ring: "#fbbf24" },
   parks:     { pin: "#059669", ring: "#34d399" },
   schools:   { pin: "#1d4ed8", ring: "#60a5fa" },
   shopping:  { pin: "#e11d48", ring: "#fb7185" },
-  landmarks: { pin: "#475569", ring: "#94a3b8" }, // Slate
-  charity:   { pin: "#9333ea", ring: "#c084fc" }, // Purple
+  landmarks: { pin: "#475569", ring: "#94a3b8" }, 
+  charity:   { pin: "#9333ea", ring: "#c084fc" }, 
 };
 
 function makeIcon(pinColor: string, ringColor: string): L.DivIcon {
