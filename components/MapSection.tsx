@@ -2,10 +2,10 @@
 
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { Coffee, Trees, GraduationCap, ShoppingBag, LayoutGrid } from "lucide-react";
+import { Coffee, Trees, GraduationCap, ShoppingBag, LayoutGrid, Flag, Heart } from "lucide-react";
 
-// Explicitly export types for use in LeafletMap.tsx
-export type Category = "all" | "dining" | "parks" | "schools" | "shopping";
+// Added 'landmarks' and 'charity' to the allowed types
+export type Category = "all" | "dining" | "parks" | "schools" | "shopping" | "landmarks" | "charity";
 
 const CATEGORIES = [
   { id: "all", label: "All", icon: <LayoutGrid size={13} /> },
@@ -13,9 +13,14 @@ const CATEGORIES = [
   { id: "parks", label: "Parks & Recreation", icon: <Trees size={13} /> },
   { id: "schools", label: "Schools", icon: <GraduationCap size={13} /> },
   { id: "shopping", label: "Shopping", icon: <ShoppingBag size={13} /> },
+  { id: "landmarks", label: "Landmarks", icon: <Flag size={13} /> },
+  { id: "charity", label: "Charity", icon: <Heart size={13} /> },
 ];
 
-const LeafletMap = dynamic(() => import("./LeafletMap"), { ssr: false });
+const LeafletMap = dynamic(() => import("./LeafletMap"), {
+  ssr: false,
+  loading: () => <div className="w-full h-[460px] bg-slate-100 animate-pulse rounded-xl" />,
+});
 
 export default function MapSection() {
   const [activeCategory, setActiveCategory] = useState<Category>("all");
