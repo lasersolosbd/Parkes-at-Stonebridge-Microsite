@@ -1,64 +1,54 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Home, DollarSign } from "lucide-react";
+import { useState } from "react";
+import { Coffee, Trees, GraduationCap, ShoppingBag, LayoutGrid, HeartPulse } from "lucide-react";
 
-// Dynamically import the map to avoid SSR issues
+export type Category = "all" | "dining" | "parks" | "schools" | "shopping" | "healthcare";
+
+export const CATEGORIES = [
+  { id: "all", label: "All", icon: <LayoutGrid size={13} />, activeCls: "bg-navy-900 text-white" },
+  { id: "dining", label: "Dining", icon: <Coffee size={13} />, activeCls: "bg-amber-600 text-white" },
+  { id: "parks", label: "Parks", icon: <Trees size={13} />, activeCls: "bg-emerald-600 text-white" },
+  { id: "schools", label: "Schools", icon: <GraduationCap size={13} />, activeCls: "bg-blue-700 text-white" },
+  { id: "shopping", label: "Shopping", icon: <ShoppingBag size={13} />, activeCls: "bg-rose-600 text-white" },
+];
+
 const LeafletMap = dynamic(() => import("./LeafletMap"), {
   ssr: false,
-  loading: () => (
-    <div className="w-full h-[500px] bg-navy-100 flex items-center justify-center rounded-sm">
-      <div className="text-center">
-        <div className="w-8 h-8 border-2 border-gold-400 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p className="text-navy-500 text-sm font-mono tracking-wide">Loading map…</p>
-      </div>
-    </div>
-  ),
+  loading: () => <div className="w-full h-[520px] bg-slate-100 animate-pulse" />,
 });
 
 export default function MapSection() {
+  const [activeCategory, setActiveCategory] = useState<Category>("all");
+
   return (
     <section id="map" className="bg-white py-24 px-6">
       <div className="max-w-7xl mx-auto">
-        {/* Section header */}
-        <div className="mb-12">
-          <span className="section-label">Neighborhood Intel</span>
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <div>
-              <h2 className="font-display text-4xl md:text-5xl text-navy-900 font-bold leading-tight">
-                Active Listings &
-                <span className="block text-navy-600 font-normal italic">Recent Sales</span>
-              </h2>
-              <div className="gold-rule w-16 mt-4" />
-            </div>
-            <p className="text-navy-500 text-sm max-w-xs leading-relaxed md:text-right">
-              Real-time neighborhood activity in The Parkes at Stonebridge.
-              Click any marker for full property details.
-            </p>
-          </div>
+        <div className="mb-10">
+          <span className="text-gold-600 font-mono text-xs uppercase tracking-widest">Neighborhood Intel</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-navy-950 font-display mt-2">
+            Minutes from Your Door.
+          </h2>
         </div>
 
-        {/* Legend */}
-        <div className="flex flex-wrap gap-6 mb-6">
-          <div className="flex items-center gap-2 text-sm text-navy-600">
-            <span className="w-4 h-4 rounded-full bg-gold-500 border-2 border-white shadow-md" />
-            <span className="font-mono tracking-wide text-xs">Active Listing</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-navy-600">
-            <span className="w-4 h-4 rounded-full bg-navy-700 border-2 border-white shadow-md" />
-            <span className="font-mono tracking-wide text-xs">Recent Sale</span>
-          </div>
+        <div className="flex flex-wrap gap-2 mb-8">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id as Category)}
+              className={`px-4 py-2 rounded-full text-xs font-semibold border transition-all ${
+                activeCategory === cat.id ? cat.activeCls : "bg-white text-navy-600 border-slate-200"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
         </div>
 
-        {/* Map */}
-        <div className="rounded-sm overflow-hidden shadow-2xl shadow-navy-200/40 border border-navy-100">
-          <LeafletMap />
+        <div className="rounded-xl overflow-hidden shadow-2xl border border-slate-200">
+          <LeafletMap activeCategory={activeCategory} />
         </div>
-
-        {/* Disclaimer */}
-        <p className="text-navy-400 text-xs mt-4 font-mono">
-          * Listing data shown is for demonstration purposes. Contact Mark for live MLS data.
-        </p>
       </div>
     </section>
   );
