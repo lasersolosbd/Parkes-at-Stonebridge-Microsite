@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { Coffee, Trees, GraduationCap, ShoppingBag, LayoutGrid } from "lucide-react";
 
+// This is the line the computer was looking for. 
+// It tells the site which categories are allowed.
 export type Category = "all" | "dining" | "parks" | "schools" | "shopping";
 
 const CATEGORIES = [
@@ -27,7 +29,6 @@ export default function MapSection() {
           <h2 className="text-4xl font-bold text-navy-950 font-display mt-2">Minutes from Your Door.</h2>
         </div>
 
-        {/* RESTORED BUTTONS */}
         <div className="flex flex-wrap gap-2 mb-6">
           {CATEGORIES.map((cat) => (
             <button
@@ -46,8 +47,7 @@ export default function MapSection() {
           <LeafletMap activeCategory={activeCategory} />
         </div>
 
-        {/* UPDATED DISCLAIMER BELOW MAP */}
-        <p className="mt-4 text-navy-900 text-xs font-semibold italic text-center max-w-2xl mx-auto opacity-80">
+        <p className="mt-6 text-navy-900 text-xs font-semibold italic text-center max-w-2xl mx-auto opacity-80">
           This is a curated list of some featured amenities close to the Parkes At Stonebridge. The area has much more to offer.
         </p>
       </div>
