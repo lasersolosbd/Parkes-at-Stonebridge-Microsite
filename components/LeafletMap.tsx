@@ -4,22 +4,20 @@ import { MapContainer, TileLayer, Marker, Popup, Polygon } from "react-leaflet";
 import L from "leaflet";
 import type { Category } from "./MapSection";
 
-// REPLACE THESE BRACKETS [40.xxx, -105.xxx] WITH YOUR GOOGLE MAPS COORDINATES
+// VERIFIED DATA: Exact Google Maps coordinates provided by user.
 export const LANDMARKS = [
-  // Original 13
+  // Original 18
   { id: 1, name: "Sandstone Ranch Park", category: "parks", position: [40.159736783065405, -105.03659635920712], description: "Sports and nature complex.", address: "3800 S Martin St" },
   { id: 2, name: "McIntosh Lake", category: "parks", position: [40.19531149252948, -105.1506932234201], description: "3.5-mile loop trail.", address: "1929 Harvard St" },
   { id: 3, name: "Oskar Blues Homemade Liquids and Solids", category: "dining", position: [40.13948705033737, -105.13149354548801], description: "BBQ and craft brews.", address: "1800 Pike Rd" },
   { id: 4, name: "Left Hand Brewing", category: "dining", position: [40.15866325579601, -105.11498038781549], description: "Local tasting room.", address: "1265 Boston Ave" },
   { id: 5, name: "Winner's Circle", category: "dining", position: [40.141695712207216, -105.12924434548786], description: "Axe throwing and bowling.", address: "2251 Ken Pratt Blvd" },
-  { id: 6, name: "Longmont Protos Pizza", category: "dining", position: [40.15244390918571, -105.15246510575655], description: "Elevated comfort food.", address: "1111 Allen Dr" },
+  { id: 6, name: "Longmont Protos Pizza", category: "dining", position: [40.15244390918571, -105.15246510575655], description: "Wood-fired pizza.", address: "1111 Allen Dr" },
   { id: 7, name: "Blue Mountain Elementary", category: "schools", position: [40.14422401050304, -105.17363861665198], description: "Top-rated elementary.", address: "1260 Mountain Drive" },
   { id: 8, name: "Altona Middle School", category: "schools", position: [40.144499104084595, -105.16258574178636], description: "Award-winning middle school.", address: "4600 Clover Basin Dr" },
   { id: 9, name: "Silver Creek High School", category: "schools", position: [40.15137978199581, -105.1673746608307], description: "Exceptional college prep.", address: "4901 Nelson Rd" },
   { id: 10, name: "Village at the Peaks", category: "shopping", position: [40.14716659635498, -105.13004466083099], description: "Premium open-air shopping.", address: "1250 S Hover St" },
   { id: 11, name: "UCHealth Longs Peak Hospital", category: "shopping", position: [40.16179985755167, -105.05829678781535], description: "Acute care hospital.", address: "1750 E Ken Pratt Blvd" },
-
-  // Your 7 Additions
   { id: 12, name: "Ziggi's Coffee", category: "dining", position: [40.14317871710589, -105.15059680315949], description: "Local coffee favorite.", address: "3730 Bramante Dr" },
   { id: 13, name: "Vance Brand Airport", category: "landmarks", position: [40.16448574303451, -105.16337500315852], description: "Public-use municipal airport.", address: "229 Airport Rd" },
   { id: 14, name: "Ozo Coffee", category: "dining", position: [40.147542311437824, -105.12908543384583], description: "Artisan coffee roasters.", address: "1232A S Hover St #400" },
@@ -27,15 +25,20 @@ export const LANDMARKS = [
   { id: 16, name: "The Home Depot", category: "shopping", position: [40.155439472638925, -105.13361240315888], description: "Home improvement center.", address: "393 S Hover St" },
   { id: 17, name: "Veterans Community Project", category: "charity", position: [40.15665546945921, -105.14412288966642], description: "Supporting our veterans.", address: "3095 Mountain Brook Dr" },
   { id: 18, name: "King Soopers", category: "shopping", position: [40.15069368427152, -105.13408537432332], description: "Local grocery store.", address: "995 S Hover St" },
+
+  // The 4 New Local Parks
+  { id: 19, name: "Willow Farm Park", category: "parks", position: [40.149772834752206, -105.14046325863437], description: "Local neighborhood green space.", address: "Longmont, CO" },
+  { id: 20, name: "Dry Creek Community Park", category: "parks", position: [40.14481122413289, -105.16612663399412], description: "Spacious community park.", address: "Longmont, CO" },
+  { id: 21, name: "Blue Skies Park", category: "parks", position: [40.14287560845084, -105.17266996244868], description: "Park and playground.", address: "Longmont, CO" },
+  { id: 22, name: "Castle Park", category: "parks", position: [40.14274069398998, -105.1593451199102], description: "Local recreation area.", address: "Longmont, CO" },
 ];
 
-// ADJUST THESE CORNERS FOR THE EXACT BOUNDARY BOX
-// Format is: [Latitude, Longitude]
+// USER VERIFIED BOUNDARY BOX: The Parkes at Stonebridge
 const neighborhoodBoundary: [number, number][] = [
-  [40.1515, -105.1495], // NW Corner
-  [40.1515, -105.1480], // NE Corner
-  [40.1485, -105.1480], // SE Corner
-  [40.1485, -105.1495]  // SW Corner
+  [40.1525533032243, -105.14975438369989],   // NW Corner
+  [40.152471299434666, -105.14782319325292], // NE Corner
+  [40.14911725959694, -105.14783392208872],  // SE Corner
+  [40.14911725959694, -105.14969001068499]   // SW Corner
 ];
 
 const CAT_COLORS: Record<string, { pin: string; ring: string }> = {
