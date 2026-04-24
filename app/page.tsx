@@ -16,7 +16,7 @@ function CommunityFeaturesBar() {
   ];
 
   return (
-    <section className="bg-[#0f172a] py-8 px-6 lg:px-16 border-y border-white/10 relative z-20">
+    <section className="bg-[#0f172a] py-8 px-6 lg:px-16 border-y border-white/10 relative z-20 text-center">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 px-4 md:px-12">
         {features.map((item, idx) => (
           <div key={idx} className="flex items-center gap-4">
@@ -39,12 +39,8 @@ export default function Home() {
       <Navbar />
       <HeroSection />
       <CommunityFeaturesBar />
-      <div className="-mt-8">
-        <NeighborAdvantage />
-      </div>
-      <div className="-mt-12">
-        <MapSection />
-      </div>
+      <div className="-mt-8"><NeighborAdvantage /></div>
+      <div className="-mt-12"><MapSection /></div>
       <ContactForm />
       <Footer />
     </main>
