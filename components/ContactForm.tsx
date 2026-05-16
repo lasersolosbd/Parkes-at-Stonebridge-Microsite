@@ -1,45 +1,55 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { CheckCircle, Phone, Mail, MapPin } from "lucide-react";
-import { RetellWebClient } from "retell-client-js-sdk";
 
-const retellWebClient = new RetellWebClient();
+// Dynamically import the SDK only on the client side to bypass server compilation errors
+let retellWebClient: any = null;
+if (typeof window !== "undefined") {
+  const { RetellWebClient } = require("retell-client-js-sdk");
+  retellWebClient = new RetellWebClient();
+}
 
 export default function ContactForm() {
-  const [mode, setMode] = useState("voice");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [isCalling, setIsCalling] = useState(false);
-  const [textSubmitted, setTextSubmitted] = useState(false);
-  const [statusText, setStatusText] = useState("Online");
-  const [isError, setIsError] = useState(false);
+  const [mode, setMode] = useState<string>("voice");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [isCalling, setIsCalling] = useState<boolean>(false);
+  const [textSubmitted, setTextSubmitted] = useState<boolean>(false);
+  const [statusText, setStatusText] = useState<string>("Online");
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
-    retellWebClient.on("call_started", () => {
+    if (!retellWebClient) return;
+
+    const handleCallStarted = () => {
       setIsCalling(true);
       setStatusText("Call Connected");
       setIsError(false);
-    });
+    };
 
-    retellWebClient.on("call_ended", () => {
+    const handleCallEnded = () => {
       setIsCalling(false);
       setStatusText("Online");
       setIsError(false);
-    });
+    };
 
-    retellWebClient.on("error", (error) => {
-      console.error("Retell error:", error);
+    const handleError = (error: any) => {
+      console.error("Retell SDK error:", error);
       setIsCalling(false);
       setStatusText("Connection Error");
       setIsError(true);
-    });
+    };
+
+    retellWebClient.on("call_started", handleCallStarted);
+    retellWebClient.on("call_ended", handleCallEnded);
+    retellWebClient.on("error", handleError);
 
     return () => {
-      retellWebClient.off("call_started");
-      retellWebClient.off("call_ended");
-      retellWebClient.off("error");
+      retellWebClient.off("call_started", handleCallStarted);
+      retellWebClient.off("call_ended", handleCallEnded);
+      retellWebClient.off("error", handleError);
     };
   }, []);
 
@@ -63,15 +73,17 @@ export default function ContactForm() {
         const data = await response.json();
 
         if (!response.ok || !data.accessToken) {
-          throw new Error("Failed to get access token");
+          throw new Error("Failed to secure validation token");
         }
 
-        await retellWebClient.startCall({
-          accessToken: data.accessToken,
-        });
+        if (retellWebClient) {
+          await retellWebClient.startCall({
+            accessToken: data.accessToken,
+          });
+        }
 
       } catch (error) {
-        console.error("Failed to connect:", error);
+        console.error("Failed to connect voice stream:", error);
         setStatusText("Connection Failed");
         setIsError(true);
         setIsCalling(false);
@@ -86,7 +98,7 @@ export default function ContactForm() {
         });
 
         if (!response.ok) {
-          throw new Error("Failed to start text session");
+          throw new Error("Failed to forward details to background parser");
         }
 
         setTextSubmitted(true);
@@ -100,7 +112,7 @@ export default function ContactForm() {
   };
 
   const handleEndCall = () => {
-    retellWebClient.stopCall();
+    if (retellWebClient) retellWebClient.stopCall();
   };
 
   const handleResetWidget = () => {
@@ -118,7 +130,7 @@ export default function ContactForm() {
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           
-          {/* Left Column: Marketing & Context */}
+          {/* Left Column */}
           <div className="lg:pt-4">
             <span className="text-[#c9a84c] text-xs font-semibold tracking-[0.3em] uppercase block mb-3">Let&apos;s Connect</span>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-5 font-display">
@@ -149,7 +161,7 @@ export default function ContactForm() {
             </div>
           </div>
 
-          {/* Right Column: AI Intake Widget Panel */}
+          {/* Right Column: Dynamic Interaction Block */}
           <div className="bg-[#1a2744] rounded-2xl overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.2)]">
             <div className="bg-[#111b35] px-6 py-5 flex items-center justify-between border-b border-white/[0.08]">
               <div className="flex items-center bg-white/[0.06] border border-white/[0.08] rounded-full p-1">
@@ -234,6 +246,7 @@ export default function ContactForm() {
 
               {isCalling ? (
                 <button 
+                  type="button"
                   onClick={handleEndCall}
                   className="w-full mt-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/50 font-bold text-sm py-4 rounded-lg tracking-widest uppercase transition-colors duration-200"
                 >
@@ -241,6 +254,7 @@ export default function ContactForm() {
                 </button>
               ) : textSubmitted ? (
                 <button 
+                  type="button"
                   onClick={handleResetWidget}
                   className="w-full mt-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 font-bold text-sm py-4 rounded-lg tracking-widest uppercase transition-colors duration-200"
                 >
@@ -248,6 +262,7 @@ export default function ContactForm() {
                 </button>
               ) : (
                 <button 
+                  type="button"
                   onClick={handleAction}
                   className="w-full mt-2 bg-[#c9a84c] hover:bg-[#ddb564] text-white font-bold text-sm py-4 rounded-lg tracking-widest uppercase transition-colors duration-200"
                 >
