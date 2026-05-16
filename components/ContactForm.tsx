@@ -66,7 +66,6 @@ export default function ContactForm() {
     setIsError(false);
 
     if (mode === "voice") {
-      // Direct safety fallback check if the component initialization is trailing behind
       if (!retellWebClientRef.current) {
         setStatusText("Initializing engine...");
         await new Promise((resolve) => setTimeout(resolve, 800));
@@ -77,6 +76,16 @@ export default function ContactForm() {
         }
       }
       
+      // --- FORCE HARDWARE MICROPHONE CHECK ---
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+      } catch (micError) {
+        alert("Microphone access was denied! Please check your browser settings to allow audio.");
+        setStatusText("Mic Blocked");
+        setIsError(true);
+        return;
+      }
+
       setStatusText("Connecting...");
       try {
         const response = await fetch("/api/retell", {
@@ -88,15 +97,17 @@ export default function ContactForm() {
         const data = await response.json();
 
         if (!response.ok || !data.accessToken) {
-          throw new Error("Failed to secure validation token");
+          throw new Error("Failed to secure validation token from backend");
         }
 
         await retellWebClientRef.current.startCall({
           accessToken: data.accessToken,
         });
 
-      } catch (error) {
+      } catch (error: any) {
         console.error("Failed to connect voice stream:", error);
+        // Alert the EXACT error to the screen
+        alert(`Connection Failed: ${error.message || error}`);
         setStatusText("Connection Failed");
         setIsError(true);
         setIsCalling(false);
