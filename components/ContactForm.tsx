@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { CheckCircle, Phone, Mail, MapPin } from "lucide-react";
 
 export default function ContactForm() {
@@ -12,29 +12,30 @@ export default function ContactForm() {
   const [textSubmitted, setTextSubmitted] = useState<boolean>(false);
   const [statusText, setStatusText] = useState<string>("Online");
   const [isError, setIsError] = useState<boolean>(false);
-  const [retellWebClient, setRetellWebClient] = useState<any>(null);
+  const retellWebClientRef = useRef<any>(null);
 
-  // Dynamically load the SDK inside useEffect to prevent server-side compilation crashes
   useEffect(() => {
+    let activeClient: any = null;
+
     const initRetell = async () => {
       try {
         const { RetellWebClient } = await import("retell-client-js-sdk");
-        const client = new RetellWebClient();
-        setRetellWebClient(client);
+        activeClient = new RetellWebClient();
+        retellWebClientRef.current = activeClient;
 
-        client.on("call_started", () => {
+        activeClient.on("call_started", () => {
           setIsCalling(true);
           setStatusText("Call Connected");
           setIsError(false);
         });
 
-        client.on("call_ended", () => {
+        activeClient.on("call_ended", () => {
           setIsCalling(false);
           setStatusText("Online");
           setIsError(false);
         });
 
-        client.on("error", (error: any) => {
+        activeClient.on("error", (error: any) => {
           console.error("Retell SDK error:", error);
           setIsCalling(false);
           setStatusText("Connection Error");
@@ -46,6 +47,14 @@ export default function ContactForm() {
     };
 
     initRetell();
+
+    return () => {
+      if (activeClient) {
+        activeClient.off("call_started");
+        activeClient.off("call_ended");
+        activeClient.off("error");
+      }
+    };
   }, []);
 
   const handleAction = async () => {
@@ -57,9 +66,15 @@ export default function ContactForm() {
     setIsError(false);
 
     if (mode === "voice") {
-      if (!retellWebClient) {
-        alert("Voice engine initializing. Please try again in a brief second.");
-        return;
+      // Direct safety fallback check if the component initialization is trailing behind
+      if (!retellWebClientRef.current) {
+        setStatusText("Initializing engine...");
+        await new Promise((resolve) => setTimeout(resolve, 800));
+        if (!retellWebClientRef.current) {
+          alert("Voice engine is tuning up. Please tap the button one more time!");
+          setStatusText("Online");
+          return;
+        }
       }
       
       setStatusText("Connecting...");
@@ -76,7 +91,7 @@ export default function ContactForm() {
           throw new Error("Failed to secure validation token");
         }
 
-        await retellWebClient.startCall({
+        await retellWebClientRef.current.startCall({
           accessToken: data.accessToken,
         });
 
@@ -110,7 +125,7 @@ export default function ContactForm() {
   };
 
   const handleEndCall = () => {
-    if (retellWebClient) retellWebClient.stopCall();
+    if (retellWebClientRef.current) retellWebClientRef.current.stopCall();
   };
 
   const handleResetWidget = () => {
