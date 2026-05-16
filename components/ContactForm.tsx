@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, CheckCircle, Phone, Mail, MapPin } from "lucide-react";
+import { CheckCircle, Phone, Mail, MapPin } from "lucide-react";
 
 export default function ContactForm() {
   const [formType, setFormType] = useState('seller'); 
@@ -56,16 +56,54 @@ export default function ContactForm() {
       setErrors(errs);
       return;
     }
+    
     setLoading(true);
-    setTimeout(() => {
+
+    try {
+      // Stream form payload data straight into GoHighLevel's secure parser pipeline
+      await fetch("/api/retell", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.email,
+          phone: form.phone,
+          mode: "form_submission",
+          formType: formType,
+          // Conditionally append relevant strategy profiles based on buyer/seller toggles
+          ...(formType === 'seller' ? {
+            address: form.address,
+            city: form.city,
+            state: form.state,
+            zip: form.zip,
+            timeframe: form.timeframe,
+            movingTo: form.movingTo,
+            workingWithAgent: form.workingWithAgent
+          } : {
+            rentOrOwn: form.rentOrOwn,
+            buyTimeframe: form.buyTimeframe,
+            firstTimeBuyer: form.firstTimeBuyer,
+            lastBought: form.lastBought
+          }),
+          message: form.message,
+          marketingConsent: form.marketingConsent,
+          updatesConsent: form.updatesConsent
+        }),
+      });
+
       setSubmitted(true);
+    } catch (error) {
+      console.error("Critical transmission failure to data sync endpoint:", error);
+      alert("There was an issue processing your request. Please try again or reach out directly.");
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   const inputClass = (field: string) =>
     `w-full bg-white border rounded-lg px-4 py-3 text-sm text-slate-800 placeholder-stone-400 focus:outline-none focus:ring-2 transition-all duration-200 ${
-      errors[field] ? "border-red-400 focus:ring-red-200" : "border-stone-200 focus:ring-gold-500/30 focus:border-gold-500"
+      errors[field] ? "border-red-400 focus:ring-red-200" : "border-stone-200 focus:ring-blue-500/30 focus:border-blue-500"
     }`;
 
   return (
@@ -74,12 +112,12 @@ export default function ContactForm() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           
           <div className="lg:pt-4">
-            <span className="text-gold-600 text-xs font-semibold tracking-[0.3em] uppercase block mb-3">Let&apos;s Connect</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-navy-950 leading-tight mb-5 font-display">
-              Start The <span className="text-navy-700">Conversation.</span>
+            <span className="text-[#c9a84c] text-xs font-semibold tracking-[0.3em] uppercase block mb-3">Let&apos;s Connect</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-5 font-display">
+              Start The <span className="text-slate-700">Conversation.</span>
             </h2>
-            <span className="block w-14 h-0.5 mb-7 bg-gradient-to-r from-gold-500 to-gold-300" />
-            <p className="text-navy-700 text-base leading-relaxed mb-8">
+            <span className="block w-14 h-0.5 mb-7 bg-gradient-to-r from-[#c9a84c] to-[#e4cb83]" />
+            <p className="text-slate-700 text-base leading-relaxed mb-8">
               No pressure. Just an honest assessment of your home&apos;s value or your buying potential in The Parkes at Stonebridge — backed by 20+ years of experience and precise execution.
             </p>
             <div className="space-y-4">
@@ -90,37 +128,37 @@ export default function ContactForm() {
                 "Expert negotiation to protect your equity and investment"
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3">
-                  <CheckCircle size={18} className="text-navy-900 shrink-0 mt-0.5" />
-                  <span className="text-navy-700 text-sm">{item}</span>
+                  <CheckCircle size={18} className="text-slate-900 shrink-0 mt-0.5" />
+                  <span className="text-slate-700 text-sm">{item}</span>
                 </div>
               ))}
             </div>
             <div className="mt-10 p-6 bg-white border border-slate-200 rounded-xl space-y-3 shadow-sm">
-              <p className="text-navy-950 font-semibold text-sm font-display">Prefer to reach out directly?</p>
-              <a href="tel:+18168535467" className="flex items-center gap-3 text-navy-600 hover:text-gold-500 text-sm transition-colors"><Phone size={15} className="text-gold-500" />(816) 853-5467</a>
-              <a href="mailto:mark@solomonhomeservices.com" className="flex items-center gap-3 text-navy-600 hover:text-gold-500 text-sm transition-colors"><Mail size={15} className="text-gold-500" />mark@solomonhomeservices.com</a>
-              <div className="flex items-center gap-3 text-navy-500 text-sm"><MapPin size={15} className="text-gold-500" />Serving The Parkes at Stonebridge</div>
+              <p className="text-slate-950 font-semibold text-sm font-display">Prefer to reach out directly?</p>
+              <a href="tel:+18168535467" className="flex items-center gap-3 text-slate-600 hover:text-[#c9a84c] text-sm transition-colors"><Phone size={15} className="text-[#c9a84c]" />(816) 853-5467</a>
+              <a href="mailto:mark@solomonhomeservices.com" className="flex items-center gap-3 text-slate-600 hover:text-[#c9a84c] text-sm transition-colors"><Mail size={15} className="text-[#c9a84c]" />mark@solomonhomeservices.com</a>
+              <div className="flex items-center gap-3 text-slate-500 text-sm"><MapPin size={15} className="text-[#c9a84c]" />Serving The Parkes at Stonebridge</div>
             </div>
           </div>
 
           <div>
             {submitted ? (
               <div className="bg-white rounded-2xl p-12 text-center shadow-xl border border-slate-200 flex flex-col items-center justify-center min-h-[500px]">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6 bg-navy-900/10">
-                  <CheckCircle size={32} className="text-navy-900" />
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6 bg-slate-900/10">
+                  <CheckCircle size={32} className="text-slate-900" />
                 </div>
-                <h3 className="text-2xl font-bold text-navy-950 mb-3 font-display">Message Received.</h3>
-                <p className="text-navy-600 text-sm leading-relaxed max-w-xs">Mark will be in touch shortly to discuss your real estate needs.</p>
+                <h3 className="text-2xl font-bold text-slate-900 mb-3 font-display">Message Received.</h3>
+                <p className="text-slate-600 text-sm leading-relaxed max-w-xs">Mark will be in touch shortly to discuss your real estate needs.</p>
               </div>
             ) : (
               <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
                 <div className="flex border-b border-slate-200">
-                  <button type="button" onClick={() => { setFormType('seller'); setErrors({}); }} className={`flex-1 py-4 text-sm font-semibold tracking-wider uppercase transition-colors ${formType === 'seller' ? 'bg-navy-900 text-white' : 'bg-slate-50 text-slate-500 hover:bg-slate-100'}`}>I&apos;m Selling</button>
-                  <button type="button" onClick={() => { setFormType('buyer'); setErrors({}); }} className={`flex-1 py-4 text-sm font-semibold tracking-wider uppercase transition-colors ${formType === 'buyer' ? 'bg-navy-900 text-white' : 'bg-slate-50 text-slate-500 hover:bg-slate-100'}`}>I&apos;m Buying</button>
+                  <button type="button" onClick={() => { setFormType('seller'); setErrors({}); }} className={`flex-1 py-4 text-sm font-semibold tracking-wider uppercase transition-colors ${formType === 'seller' ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-500 hover:bg-slate-100'}`}>I&apos;m Selling</button>
+                  <button type="button" onClick={() => { setFormType('buyer'); setErrors({}); }} className={`flex-1 py-4 text-sm font-semibold tracking-wider uppercase transition-colors ${formType === 'buyer' ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-500 hover:bg-slate-100'}`}>I&apos;m Buying</button>
                 </div>
 
                 <form onSubmit={handleSubmit} noValidate className="p-8 md:p-10">
-                  <h3 className="text-xl font-bold text-navy-950 mb-6 font-display">
+                  <h3 className="text-xl font-bold text-slate-900 mb-6 font-display">
                     {formType === 'seller' ? "Request a Free Home Valuation" : "Start Your Home Search"}
                   </h3>
 
@@ -180,8 +218,8 @@ export default function ContactForm() {
                       <div className="mb-4">
                         <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Working with an Agent? <span className="text-red-500 ml-1">{errors.workingWithAgent || "*"}</span></label>
                         <div className="flex gap-4 mt-2">
-                          <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"><input type="radio" name="workingWithAgent" value="yes" checked={form.workingWithAgent === "yes"} onChange={handleChange} className="w-4 h-4 text-navy-900 focus:ring-gold-500" /> Yes</label>
-                          <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"><input type="radio" name="workingWithAgent" value="no" checked={form.workingWithAgent === "no"} onChange={handleChange} className="w-4 h-4 text-navy-900 focus:ring-gold-500" /> No</label>
+                          <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"><input type="radio" name="workingWithAgent" value="yes" checked={form.workingWithAgent === "yes"} onChange={handleChange} className="w-4 h-4 text-slate-900 focus:ring-[#c9a84c]" /> Yes</label>
+                          <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"><input type="radio" name="workingWithAgent" value="no" checked={form.workingWithAgent === "no"} onChange={handleChange} className="w-4 h-4 text-slate-900 focus:ring-[#c9a84c]" /> No</label>
                         </div>
                       </div>
                     </>
@@ -205,8 +243,8 @@ export default function ContactForm() {
                       <div className="mb-4">
                         <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">First time home buyer? <span className="text-red-500 ml-1">{errors.firstTimeBuyer || "*"}</span></label>
                         <div className="flex gap-4 mt-2">
-                          <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"><input type="radio" name="firstTimeBuyer" value="yes" checked={form.firstTimeBuyer === "yes"} onChange={handleChange} className="w-4 h-4 text-navy-900 focus:ring-gold-500" /> Yes</label>
-                          <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"><input type="radio" name="firstTimeBuyer" value="no" checked={form.firstTimeBuyer === "no"} onChange={handleChange} className="w-4 h-4 text-navy-900 focus:ring-gold-500" /> No</label>
+                          <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"><input type="radio" name="firstTimeBuyer" value="yes" checked={form.firstTimeBuyer === "yes"} onChange={handleChange} className="w-4 h-4 text-slate-900 focus:ring-[#c9a84c]" /> Yes</label>
+                          <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"><input type="radio" name="firstTimeBuyer" value="no" checked={form.firstTimeBuyer === "no"} onChange={handleChange} className="w-4 h-4 text-slate-900 focus:ring-[#c9a84c]" /> No</label>
                         </div>
                       </div>
 
@@ -242,7 +280,7 @@ export default function ContactForm() {
                     </label>
                   </div>
 
-                  <button type="submit" disabled={loading} className="w-full py-4 rounded-lg font-semibold text-sm tracking-wider uppercase flex items-center justify-center gap-2 bg-gold-500 text-navy-950 hover:bg-gold-400 transition-colors duration-300 disabled:opacity-60 shadow-md">
+                  <button type="submit" disabled={loading} className="w-full py-4 rounded-lg font-semibold text-sm tracking-wider uppercase flex items-center justify-center gap-2 bg-[#c9a84c] text-white hover:bg-[#b8965e] transition-colors duration-300 disabled:opacity-60 shadow-md">
                     {loading ? "Sending..." : (formType === 'seller' ? "Get My Free Valuation" : "Let&apos;s Get Started")}
                   </button>
                 </form>
