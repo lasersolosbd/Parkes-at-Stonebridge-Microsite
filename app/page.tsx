@@ -2,13 +2,14 @@
 
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import CommunityFeaturesBar from "@/components/CommunityFeaturesBar";
 import NeighborAdvantage from "@/components/NeighborAdvantage";
 import MapSection from "@/components/MapSection";
-import ContactForm from "@/components/ContactForm";
+import ContactForm from "./ContactForm"; // FIXED: Points explicitly to your exact file
 import Footer from "@/components/Footer";
 import { Home as HouseIcon, Trees, Footprints } from "lucide-react";
 
-function CommunityFeaturesBar() {
+function CommunityBar() {
   const features = [
     { icon: HouseIcon, label: "Luxury Townhome Community" },
     { icon: Trees, label: "Private Community Park" },
@@ -40,7 +41,7 @@ export default function Home() {
       <div id="hero">
         <HeroSection />
       </div>
-      <CommunityFeaturesBar />
+      <CommunityBar />
       <div id="strategy" className="-mt-8">
         <NeighborAdvantage />
       </div>
