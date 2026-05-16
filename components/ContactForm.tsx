@@ -12,19 +12,15 @@ export default function ContactForm() {
   const [textSubmitted, setTextSubmitted] = useState<boolean>(false);
   const [statusText, setStatusText] = useState<string>("Online");
   const [isError, setIsError] = useState<boolean>(false);
-  const [retellClient, setRetellClient] = useState<any>(null);
+  const [retellWebClient, setRetellWebClient] = useState<any>(null);
 
-  // Dynamically load the Retell Web SDK directly into the window object to prevent webpack errors
+  // Dynamically load the SDK inside useEffect to prevent server-side compilation crashes
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/retell-client-js-sdk/1.0.3/retell-client-js-sdk.umd.cjs";
-    script.async = true;
-    script.onload = () => {
-      // @ts-ignore
-      if (window.RetellWebClient) {
-        // @ts-ignore
-        const client = new window.RetellWebClient();
-        setRetellClient(client);
+    const initRetell = async () => {
+      try {
+        const { RetellWebClient } = await import("retell-client-js-sdk");
+        const client = new RetellWebClient();
+        setRetellWebClient(client);
 
         client.on("call_started", () => {
           setIsCalling(true);
@@ -38,19 +34,18 @@ export default function ContactForm() {
           setIsError(false);
         });
 
-        client.on("error", (err: any) => {
-          console.error("Retell SDK error:", err);
+        client.on("error", (error: any) => {
+          console.error("Retell SDK error:", error);
           setIsCalling(false);
           setStatusText("Connection Error");
           setIsError(true);
         });
+      } catch (err) {
+        console.error("Failed to initialize Retell SDK module:", err);
       }
     };
-    document.body.appendChild(script);
 
-    return () => {
-      document.body.removeChild(script);
-    };
+    initRetell();
   }, []);
 
   const handleAction = async () => {
@@ -62,10 +57,11 @@ export default function ContactForm() {
     setIsError(false);
 
     if (mode === "voice") {
-      if (!retellClient) {
+      if (!retellWebClient) {
         alert("Voice engine initializing. Please try again in a brief second.");
         return;
       }
+      
       setStatusText("Connecting...");
       try {
         const response = await fetch("/api/retell", {
@@ -80,7 +76,7 @@ export default function ContactForm() {
           throw new Error("Failed to secure validation token");
         }
 
-        await retellClient.startCall({
+        await retellWebClient.startCall({
           accessToken: data.accessToken,
         });
 
@@ -114,7 +110,7 @@ export default function ContactForm() {
   };
 
   const handleEndCall = () => {
-    if (retellClient) retellClient.stopCall();
+    if (retellWebClient) retellWebClient.stopCall();
   };
 
   const handleResetWidget = () => {
@@ -132,7 +128,7 @@ export default function ContactForm() {
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           
-          {/* Left Column: Context */}
+          {/* Left Column */}
           <div className="lg:pt-4">
             <span className="text-[#c9a84c] text-xs font-semibold tracking-[0.3em] uppercase block mb-3">Let&apos;s Connect</span>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-5 font-display">
@@ -163,7 +159,7 @@ export default function ContactForm() {
             </div>
           </div>
 
-          {/* Right Column: Interactive Widget Frame */}
+          {/* Right Column */}
           <div className="bg-[#1a2744] rounded-2xl overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.2)]">
             <div className="bg-[#111b35] px-6 py-5 flex items-center justify-between border-b border-white/[0.08]">
               <div className="flex items-center bg-white/[0.06] border border-white/[0.08] rounded-full p-1">
