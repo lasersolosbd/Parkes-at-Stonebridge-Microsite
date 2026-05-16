@@ -14,7 +14,8 @@
     "react-dom": "^18",
     "leaflet": "^1.9.4",
     "react-leaflet": "^4.2.1",
-    "lucide-react": "^0.400.0"
+    "lucide-react": "^0.400.0",
+    "retell-client-js-sdk": "^1.0.3"
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.12",
