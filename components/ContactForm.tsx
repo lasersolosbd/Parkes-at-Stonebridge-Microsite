@@ -3,13 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { CheckCircle, Phone, Mail, MapPin } from "lucide-react";
 
-// Dynamically import the SDK only on the client side to bypass server compilation errors
-let retellWebClient: any = null;
-if (typeof window !== "undefined") {
-  const { RetellWebClient } = require("retell-client-js-sdk");
-  retellWebClient = new RetellWebClient();
-}
-
 export default function ContactForm() {
   const [mode, setMode] = useState<string>("voice");
   const [firstName, setFirstName] = useState<string>("");
@@ -19,37 +12,44 @@ export default function ContactForm() {
   const [textSubmitted, setTextSubmitted] = useState<boolean>(false);
   const [statusText, setStatusText] = useState<string>("Online");
   const [isError, setIsError] = useState<boolean>(false);
+  const [retellClient, setRetellClient] = useState<any>(null);
 
+  // Dynamically load the Retell Web SDK directly into the window object to prevent webpack errors
   useEffect(() => {
-    if (!retellWebClient) return;
+    const script = document.createElement("script");
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/retell-client-js-sdk/1.0.3/retell-client-js-sdk.umd.cjs";
+    script.async = true;
+    script.onload = () => {
+      // @ts-ignore
+      if (window.RetellWebClient) {
+        // @ts-ignore
+        const client = new window.RetellWebClient();
+        setRetellClient(client);
 
-    const handleCallStarted = () => {
-      setIsCalling(true);
-      setStatusText("Call Connected");
-      setIsError(false);
+        client.on("call_started", () => {
+          setIsCalling(true);
+          setStatusText("Call Connected");
+          setIsError(false);
+        });
+
+        client.on("call_ended", () => {
+          setIsCalling(false);
+          setStatusText("Online");
+          setIsError(false);
+        });
+
+        client.on("error", (err: any) => {
+          console.error("Retell SDK error:", err);
+          setIsCalling(false);
+          setStatusText("Connection Error");
+          setIsError(true);
+        });
+      }
     };
-
-    const handleCallEnded = () => {
-      setIsCalling(false);
-      setStatusText("Online");
-      setIsError(false);
-    };
-
-    const handleError = (error: any) => {
-      console.error("Retell SDK error:", error);
-      setIsCalling(false);
-      setStatusText("Connection Error");
-      setIsError(true);
-    };
-
-    retellWebClient.on("call_started", handleCallStarted);
-    retellWebClient.on("call_ended", handleCallEnded);
-    retellWebClient.on("error", handleError);
+    document.body.appendChild(script);
 
     return () => {
-      retellWebClient.off("call_started", handleCallStarted);
-      retellWebClient.off("call_ended", handleCallEnded);
-      retellWebClient.off("error", handleError);
+      document.body.removeChild(script);
     };
   }, []);
 
@@ -62,6 +62,10 @@ export default function ContactForm() {
     setIsError(false);
 
     if (mode === "voice") {
+      if (!retellClient) {
+        alert("Voice engine initializing. Please try again in a brief second.");
+        return;
+      }
       setStatusText("Connecting...");
       try {
         const response = await fetch("/api/retell", {
@@ -76,11 +80,9 @@ export default function ContactForm() {
           throw new Error("Failed to secure validation token");
         }
 
-        if (retellWebClient) {
-          await retellWebClient.startCall({
-            accessToken: data.accessToken,
-          });
-        }
+        await retellClient.startCall({
+          accessToken: data.accessToken,
+        });
 
       } catch (error) {
         console.error("Failed to connect voice stream:", error);
@@ -112,7 +114,7 @@ export default function ContactForm() {
   };
 
   const handleEndCall = () => {
-    if (retellWebClient) retellWebClient.stopCall();
+    if (retellClient) retellClient.stopCall();
   };
 
   const handleResetWidget = () => {
@@ -130,7 +132,7 @@ export default function ContactForm() {
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           
-          {/* Left Column */}
+          {/* Left Column: Context */}
           <div className="lg:pt-4">
             <span className="text-[#c9a84c] text-xs font-semibold tracking-[0.3em] uppercase block mb-3">Let&apos;s Connect</span>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-5 font-display">
@@ -161,7 +163,7 @@ export default function ContactForm() {
             </div>
           </div>
 
-          {/* Right Column: Dynamic Interaction Block */}
+          {/* Right Column: Interactive Widget Frame */}
           <div className="bg-[#1a2744] rounded-2xl overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.2)]">
             <div className="bg-[#111b35] px-6 py-5 flex items-center justify-between border-b border-white/[0.08]">
               <div className="flex items-center bg-white/[0.06] border border-white/[0.08] rounded-full p-1">
