@@ -37,11 +37,19 @@ export default function Home() {
   return (
     <main className="overflow-x-hidden bg-white">
       <Navbar />
-      <HeroSection />
+      <div id="hero">
+        <HeroSection />
+      </div>
       <CommunityFeaturesBar />
-      <div className="-mt-8"><NeighborAdvantage /></div>
-      <div className="-mt-12"><MapSection /></div>
-      <ContactForm />
+      <div id="strategy" className="-mt-8">
+        <NeighborAdvantage />
+      </div>
+      <div id="map" className="-mt-12">
+        <MapSection />
+      </div>
+      <div id="contact">
+        <ContactForm />
+      </div>
       <Footer />
     </main>
   );
