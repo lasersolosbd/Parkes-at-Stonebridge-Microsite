@@ -1,7 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { CheckCircle, Phone, Mail, MapPin } from "lucide-react";
+import { RetellWebClient } from "retell-client-js-sdk";
+
+// Initialize natively outside the render loop so the class methods are permanently bound
+const retellWebClient = new RetellWebClient();
 
 export default function ContactForm() {
   const [mode, setMode] = useState<string>("voice");
@@ -12,48 +16,31 @@ export default function ContactForm() {
   const [textSubmitted, setTextSubmitted] = useState<boolean>(false);
   const [statusText, setStatusText] = useState<string>("Online");
   const [isError, setIsError] = useState<boolean>(false);
-  const retellWebClientRef = useRef<any>(null);
 
   useEffect(() => {
-    let activeClient: any = null;
+    retellWebClient.on("call_started", () => {
+      setIsCalling(true);
+      setStatusText("Call Connected");
+      setIsError(false);
+    });
 
-    const initRetell = async () => {
-      try {
-        const { RetellWebClient } = await import("retell-client-js-sdk");
-        activeClient = new RetellWebClient();
-        retellWebClientRef.current = activeClient;
+    retellWebClient.on("call_ended", () => {
+      setIsCalling(false);
+      setStatusText("Online");
+      setIsError(false);
+    });
 
-        activeClient.on("call_started", () => {
-          setIsCalling(true);
-          setStatusText("Call Connected");
-          setIsError(false);
-        });
-
-        activeClient.on("call_ended", () => {
-          setIsCalling(false);
-          setStatusText("Online");
-          setIsError(false);
-        });
-
-        activeClient.on("error", (error: any) => {
-          console.error("Retell SDK error:", error);
-          setIsCalling(false);
-          setStatusText("Connection Error");
-          setIsError(true);
-        });
-      } catch (err) {
-        console.error("Failed to initialize Retell SDK module:", err);
-      }
-    };
-
-    initRetell();
+    retellWebClient.on("error", (error: any) => {
+      console.error("Retell SDK error:", error);
+      setIsCalling(false);
+      setStatusText("Connection Error");
+      setIsError(true);
+    });
 
     return () => {
-      if (activeClient) {
-        activeClient.off("call_started");
-        activeClient.off("call_ended");
-        activeClient.off("error");
-      }
+      retellWebClient.off("call_started");
+      retellWebClient.off("call_ended");
+      retellWebClient.off("error");
     };
   }, []);
 
@@ -66,17 +53,7 @@ export default function ContactForm() {
     setIsError(false);
 
     if (mode === "voice") {
-      if (!retellWebClientRef.current) {
-        setStatusText("Initializing engine...");
-        await new Promise((resolve) => setTimeout(resolve, 800));
-        if (!retellWebClientRef.current) {
-          alert("Voice engine is tuning up. Please tap the button one more time!");
-          setStatusText("Online");
-          return;
-        }
-      }
-      
-      // --- FORCE HARDWARE MICROPHONE CHECK ---
+      // Force hardware check
       try {
         await navigator.mediaDevices.getUserMedia({ audio: true });
       } catch (micError) {
@@ -97,16 +74,16 @@ export default function ContactForm() {
         const data = await response.json();
 
         if (!response.ok || !data.accessToken) {
-          throw new Error("Failed to secure validation token from backend");
+          throw new Error("Failed to secure validation token");
         }
 
-        await retellWebClientRef.current.startCall({
+        // The native class method will fire perfectly here
+        await retellWebClient.startCall({
           accessToken: data.accessToken,
         });
 
       } catch (error: any) {
         console.error("Failed to connect voice stream:", error);
-        // Alert the EXACT error to the screen
         alert(`Connection Failed: ${error.message || error}`);
         setStatusText("Connection Failed");
         setIsError(true);
@@ -136,7 +113,7 @@ export default function ContactForm() {
   };
 
   const handleEndCall = () => {
-    if (retellWebClientRef.current) retellWebClientRef.current.stopCall();
+    retellWebClient.stopCall();
   };
 
   const handleResetWidget = () => {
